@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="Transformer.SLDASM">
+  <link
+    name="Baselink">
+    <inertial>
+      <origin
+        xyz="0.0228108970080744 -0.000561788917999517 0.0331105506812299"
+        rpy="0 0 0" />
+      <mass
+        value="1.31960509138415" />
+      <inertia
+        ixx="0.00312181926824079"
+        ixy="-5.03100609710685E-06"
+        ixz="-1.29443545489663E-05"
+        iyy="0.0038554317386189"
+        iyz="-7.75159199175596E-06"
+        izz="0.00662446922629405" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Baselink.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Baselink.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Bubleft">
+    <inertial>
+      <origin
+        xyz="-0.000772222528972046 -1.4898008240255E-08 0.0144402391383288"
+        rpy="0 0 0" />
+      <mass
+        value="0.0541320948471737" />
+      <inertia
+        ixx="1.9153591360639E-05"
+        ixy="1.05076891250516E-11"
+        ixz="1.29770853899577E-06"
+        iyy="4.63922160357353E-05"
+        iyz="1.2606080458491E-11"
+        izz="4.32236807688341E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Bubleft.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Bubleft.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Bubleft"
+    type="revolute">
+    <origin
+      xyz="0.04025 -0.14005 0.0159"
+      rpy="1.5707963267949 0 -1.5707963267949" />
+    <parent
+      link="Baselink" />
+    <child
+      link="Bubleft" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.1243"
+      upper="3.1382"
+      effort="10.3"
+      velocity="3.67" />
+  </joint>
+  <link
+    name="Hipleft">
+    <inertial>
+      <origin
+        xyz="-0.000270081557997293 -0.0684560993055164 0.0028626889211561"
+        rpy="0 0 0" />
+      <mass
+        value="0.318234408091769" />
+      <inertia
+        ixx="0.000267811204266692"
+        ixy="3.11914095953246E-06"
+        ixz="4.88817409078695E-07"
+        iyy="0.000174267837279053"
+        iyz="-1.00379998284168E-05"
+        izz="0.00017802683796978" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Hipleft.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Hipleft.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Hipleft"
+    type="revolute">
+    <origin
+      xyz="0.000299999999999998 0 0.03995"
+      rpy="0 1.5707963267949 0" />
+    <parent
+      link="Bubleft" />
+    <child
+      link="Hipleft" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.6351"
+      upper="0.3710"
+      effort="10.3"
+      velocity="3.67" />
+  </joint>
+  <link
+    name="Kneeleft">
+    <inertial>
+      <origin
+        xyz="4.53232767438361E-05 -0.0743268502837562 0.000464653410863155"
+        rpy="0 0 0" />
+      <mass
+        value="0.321584635989643" />
+      <inertia
+        ixx="0.000413517962210184"
+        ixy="-1.1556352005471E-12"
+        ixz="2.83786074294175E-12"
+        iyy="0.000169644385414367"
+        iyz="-3.45699427258965E-08"
+        izz="0.000328712219864248" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Kneeleft.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Kneeleft.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Kneeleft"
+    type="revolute">
+    <origin
+      xyz="9.99999999999751E-05 -0.1851 0.00419999999999984"
+      rpy="0 0 0" />
+    <parent
+      link="Hipleft" />
+    <child
+      link="Kneeleft" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.5127"
+      upper="1.4831"
+      effort="10.3"
+      velocity="3.67" />
+  </joint>
+  <link
+    name="Footleft">
+    <inertial>
+      <origin
+        xyz="0.0366739746986923 -0.0173790624296392 0.000213862523254674"
+        rpy="0 0 0" />
+      <mass
+        value="0.213822723684556" />
+      <inertia
+        ixx="0.000122852397918318"
+        ixy="-6.57031342432722E-05"
+        ixz="7.51393483020317E-08"
+        iyy="0.000270815082048137"
+        iyz="4.99178931240558E-09"
+        izz="0.000254522196916082" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Footleft.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Footleft.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Footleft"
+    type="revolute">
+    <origin
+      xyz="-9.99999999999196E-05 -0.1709 -0.00055000000000005"
+      rpy="0 0 0" />
+    <parent
+      link="Kneeleft" />
+    <child
+      link="Footleft" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.1381"
+      upper="0.7027"
+      effort="2.94"
+      velocity="4.82" />
+  </joint>
+  <link
+    name="Bubright">
+    <inertial>
+      <origin
+        xyz="0.000772222528972022 1.48980082367856E-08 0.0144402391383288"
+        rpy="0 0 0" />
+      <mass
+        value="0.0541320948471737" />
+      <inertia
+        ixx="1.91535913606391E-05"
+        ixy="1.05076891164341E-11"
+        ixz="-1.29770853899576E-06"
+        iyy="4.63922160357354E-05"
+        iyz="-1.26060804609872E-11"
+        izz="4.32236807688341E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Bubright.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Bubright.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Bubright"
+    type="revolute">
+    <origin
+      xyz="0.0402500000000001 0.13995 0.0159"
+      rpy="1.5707963267949 0 -1.5707963267949" />
+    <parent
+      link="Baselink" />
+    <child
+      link="Bubright" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1382"
+      upper="0.1243"
+      effort="10.3"
+      velocity="3.67" />
+  </joint>
+  <link
+    name="Hipright">
+    <inertial>
+      <origin
+        xyz="-0.000405092555900308 -0.0684560755966682 -0.00286270745992134"
+        rpy="0 0 0" />
+      <mass
+        value="0.318234889909563" />
+      <inertia
+        ixx="0.000267811380487872"
+        ixy="3.11898839144832E-06"
+        ixz="-4.88860066637238E-07"
+        iyy="0.000174268008727696"
+        iyz="1.00382672886604E-05"
+        izz="0.000178026829294935" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Hipright.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Hipright.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Hipright"
+    type="revolute">
+    <origin
+      xyz="-0.000299999999999967 0 0.0399500000000008"
+      rpy="0 1.5707963267949 0" />
+    <parent
+      link="Bubright" />
+    <child
+      link="Hipright" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-0.3710"
+      upper="0.6351"
+      effort="10.3"
+      velocity="3.67" />
+  </joint>
+  <link
+    name="Kneeright">
+    <inertial>
+      <origin
+        xyz="-4.53232767438499E-05 -0.0743268502837559 -0.00032896190698839"
+        rpy="0 0 0" />
+      <mass
+        value="0.321584635989642" />
+      <inertia
+        ixx="0.000413517962210183"
+        ixy="1.1556351269221E-12"
+        ixz="2.83786072026751E-12"
+        iyy="0.000169644385414367"
+        iyz="3.45699427260068E-08"
+        izz="0.000328712219864248" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Kneeright.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Kneeright.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Kneeright"
+    type="revolute">
+    <origin
+      xyz="-9.99999999999196E-05 -0.1851 -0.00419999999999993"
+      rpy="0 0 0" />
+    <parent
+      link="Hipright" />
+    <child
+      link="Kneeright" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.4831"
+      upper="1.5127"
+      effort="10.3"
+      velocity="3.67" />
+  </joint>
+  <link
+    name="Footright">
+    <inertial>
+      <origin
+        xyz="0.0366739750369883 -0.0172788985778793 0.000213862492401851"
+        rpy="0 0 0" />
+      <mass
+        value="0.213822726115051" />
+      <inertia
+        ixx="0.000122852400084898"
+        ixy="-6.57031359502892E-05"
+        ixz="7.51393450167175E-08"
+        iyy="0.000270815087500778"
+        iyz="4.99163495568268E-09"
+        izz="0.000254522201690246" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Footright.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/Footright.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Footright"
+    type="revolute">
+    <origin
+      xyz="9.99999999998918E-05 -0.1709 0.000449999999999839"
+      rpy="0 0 0" />
+    <parent
+      link="Kneeright" />
+    <child
+      link="Footright" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-0.7027"
+      upper="1.1381"
+      effort="2.94"
+      velocity="4.82" />
+  </joint>
+</robot>
