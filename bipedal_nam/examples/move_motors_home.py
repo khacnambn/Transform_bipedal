@@ -14,7 +14,7 @@ from bipedal_robot import BipedalConfig, BipedalRobot
 from lerobot.motors import MotorCalibration, MotorNormMode
 
 
-def load_calibration(calib_file: str = "config/calibration/rightcalib.json"):
+def load_calibration(calib_file: str = "bipedal_nam/config/calibration/rightcalib_normalized.json"):
     """Load calibration from normalized JSON file (degree-based, linear)."""
     try:
         with open(calib_file, "r") as f:
@@ -105,7 +105,7 @@ def find_shortest_path(current_pos: int, target_pos: int,
 
 
 def move_motors_home(port: str = "/dev/ttyACM0", baudrate: int = 1_000_000, 
-                     calib_file: str = "config/calibration/rightcalib.json",
+                     calib_file: str = "/home/nam/Transform_Bipedal/bipedal_nam/config/calibration/rightcalib_normalized.json",
                      p_coef: int = 16, d_coef: int = 16, confirm: bool = True):
     """
     Move all motors to HOME position using BipedalRobot with LeRobot calibration.

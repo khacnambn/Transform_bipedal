@@ -35,18 +35,18 @@ def save_motor_home(motor_ids=None, port: str = "/dev/ttyACM0", baudrate: int = 
         6: "leg_twist_right",
         7: "leg_knee_right",
         8: "leg_foot_right",
-        9: "leg_gripper_right",
+        9: "leg_gripper_right",  # ← Thêm gripper
     }
     
     motor_models = {
         1: "sts3215", 2: "sts3215", 3: "sts3215",
         4: "sts3095", 5: "sts3095", 6: "sts3215",
-        7: "sts3095", 8: "sts3215", 9: "sts3215",
+        7: "sts3095", 8: "sts3215", 9: "sts3215",  # ← Motor 9 cũng là sts3215
     }
     
     # Default to all active motors if none specified
     if motor_ids is None:
-        motor_ids = [1, 4, 5, 6, 7, 8]  # Currently active motors
+        motor_ids = [1, 4, 5, 6, 7, 8, 9]  # ← Thêm 9 vào đây
     elif isinstance(motor_ids, int):
         motor_ids = [motor_ids]
     
