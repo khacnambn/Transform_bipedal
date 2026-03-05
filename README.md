@@ -12,7 +12,7 @@ The system consists of:
 - **Main Control Laptop** - Receives sensor data, processes policy, sends control commands via ZMQ client
 
 ```
-![Control_Diagram](Communication_diagram.png) 
+![Control_Diagram](Communication_Diagram.png) 
 
 ```
 
