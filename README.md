@@ -2,6 +2,8 @@
 
 URDF and USD files → Namtransformer
 
+![URDF_model](URDF_model.png) 
+
 This project combines two mobile manipulators into a single bipedal robot system with distributed control architecture using ZMQ communication.
 
 ## System Architecture
