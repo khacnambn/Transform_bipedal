@@ -11,9 +11,7 @@ The system consists of:
 - **Edge Server** (on each mobile manipulator) - Reads IMU and servo motor data, publishes via ZMQ
 - **Main Control Laptop** - Receives sensor data, processes policy, sends control commands via ZMQ client
 
-```
 ![Control_diagram](Communicatio_Diagram.png) 
-```
 
 ## Directory Structure
 
