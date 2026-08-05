@@ -2,36 +2,26 @@
 
 URDF and USD files → Namtransformer
 
+![URDF_model](URDF_model.png) 
+
 This project combines two mobile manipulators into a single bipedal robot system with distributed control architecture using ZMQ communication.
 
-## 🏗️ System Architecture
+## System Architecture
 
 The system consists of:
 - **2 Mobile Manipulators** (Left & Right legs) - Each with dedicated edge computing
 - **Edge Server** (on each mobile manipulator) - Reads IMU and servo motor data, publishes via ZMQ
 - **Main Control Laptop** - Receives sensor data, processes policy, sends control commands via ZMQ client
 
-```
-Mobile Manipulator (Left)          Mobile Manipulator (Right)
-├── IMU Sensor                     ├── IMU Sensor
-├── Servo Motors                   ├── Servo Motors
-└── Edge Server (ZMQ Publisher)    └── Edge Server (ZMQ Publisher)
-         ↓                                    ↓
-         └──────────────┬──────────────┘
-                        ↓
-              Main Control Laptop
-              ├── ZMQ Client (Subscriber)
-              ├── Policy Processing
-              └── Motor Control Commands
-```
+![Control_diagram](Communication_Diagram.png) 
 
-## 📁 Directory Structure
+## Directory Structure
 
 - **`bipedal_nam/`** - Main module for bipedal robot control and policies
 - **`lerobot/`** - LeRobot framework for robot learning and inference
 - **`examples_client/`** - Client examples for main laptop control
 
-## 🚀 Installation Guide
+## Installation Guide
 
 ### 1. Clone repository
 ```bash
@@ -48,22 +38,13 @@ pip install -e bipedal_nam/
 pip install -e lerobot/
 pip install zmq  # For ZMQ communication
 ```
-
-**For macOS (Main Laptop):**
-```bash
-pip install -r lerobot/requirements-macos.txt
-pip install -e bipedal_nam/
-pip install -e lerobot/
-pip install zmq
-```
-
-**For Edge Servers (on each mobile manipulator):**
+**For Edge Servers (on each mobile manipulator - Raspberry Pi5/4):**
 ```bash
 pip install zmq
 pip install -e bipedal_nam/
 ```
 
-## 🎯 How to Run
+## How to Run
 
 ### Step 1: Start Edge Servers (on each mobile manipulator)
 
@@ -111,7 +92,7 @@ cd bipedal_nam/examples
 python lerobot_motor_control.py
 ```
 
-## 🧪 Running Unit Tests
+## Running Unit Tests
 
 **Test Gait:**
 ```bash
@@ -131,7 +112,7 @@ cd lerobot
 python -m pytest tests/ -v
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 Edit configuration files:
 ```bash
@@ -142,7 +123,7 @@ bipedal_nam/config/default_config.py
 bipedal_nam/config/calibration/calibration.json
 ```
 
-## 📝 Important Files
+## Important Files
 
 - `bipedal_nam/src/bipedal_robot/bipedal.py` - Main robot control class
 - `bipedal_nam/src/bipedal_robot/motor_control/gait_controller.py` - Gait controller
@@ -151,7 +132,7 @@ bipedal_nam/config/calibration/calibration.json
 - `bipedal_nam/src/leg_server/leg_server_right.py` - Right leg ZMQ server
 - `lerobot/src/lerobot/` - LeRobot framework
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 If you encounter import errors:
 ```bash
@@ -166,6 +147,6 @@ lsof -i :5555  # Left leg server
 lsof -i :5556  # Right leg server
 ```
 
-## 📄 License
+## License
 
 MIT License
