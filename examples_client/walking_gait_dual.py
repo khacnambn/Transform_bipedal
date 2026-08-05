@@ -185,17 +185,17 @@ class SingleLegController:
         
         # Config based on side
         if self.side == "RIGHT":
-            self.home_pos = [370, 2612, 2702, 2287, 2155, 2048]
+            self.home_pos = [370, 2612, 2702, 2535, 2155, 2048]
             self.servo_config = {
                 5: {"name": "hip",  "home_ticks": 2612, "min_ticks": 2240, "max_ticks": 3075},
-                7: {"name": "knee", "home_ticks": 2287, "min_ticks": 1313, "max_ticks": 3231},
+                7: {"name": "knee", "home_ticks": 2535, "min_ticks": 1635, "max_ticks": 3545},
                 8: {"name": "foot", "home_ticks": 2155, "min_ticks": 1413, "max_ticks": 2532},
             }
         else:  # LEFT
-            self.home_pos = [3536, 1988, 2564, 2535, 1614, 1390]
+            self.home_pos = [3536, 1988, 2564, 2287, 1614, 1390]
             self.servo_config = {
                 5: {"name": "hip",  "home_ticks": 1988, "min_ticks": 1545, "max_ticks": 2365},
-                7: {"name": "knee", "home_ticks": 2535, "min_ticks": 1635, "max_ticks": 3545},
+                7: {"name": "knee", "home_ticks": 2287, "min_ticks": 1313, "max_ticks": 3231},
                 8: {"name": "foot", "home_ticks": 1614, "min_ticks": 1111, "max_ticks": 2363},
             }
         

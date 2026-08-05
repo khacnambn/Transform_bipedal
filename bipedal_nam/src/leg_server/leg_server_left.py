@@ -8,6 +8,10 @@ import logging
 from collections import deque
 import sys
 from pathlib import Path
+import qwiic_icm20948
+import math
+from ahrs.filters import Madgwick
+import numpy as np
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -20,6 +24,45 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - [MCU_SERVER_LEFT] - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+# ==============================
+# Load calibration
+# ==============================
+with open("/home/mobile2/leg2_bipedal/imu/imu_calib.json", "r") as f:
+    calib = json.load(f)
+
+ax_bias = calib["ax_bias"]
+ay_bias = calib["ay_bias"]
+az_bias = calib["az_bias"]
+
+ax_scale = calib["ax_scale"]
+ay_scale = calib["ay_scale"]
+az_scale = calib["az_scale"]
+
+gx_bias = calib.get("gx_bias", 0)
+gy_bias = calib.get("gy_bias", 0)
+gz_bias = calib.get("gz_bias", 0)
+GYRO_SENSITIVITY = calib.get("gyro_sensitivity", 65.536)
+
+SENSITIVITY = 16384.0
+G = 9.81
+
+ACCEL_ALPHA = 0.15
+GYRO_ALPHA = 0.15
+
+filtered_ax, filtered_ay, filtered_az = 0.0, 0.0, 0.0
+filtered_gx, filtered_gy, filtered_gz = 0.0, 0.0, 0.0
+
+# Initialize IMU
+IMU = qwiic_icm20948.QwiicIcm20948()
+if not IMU.connected:
+    logger.error("IMU not found! Exiting...")
+    exit()
+
+IMU.begin()
+logger.info("ICM-20948 IMU initialized (calibrated, output in m/s²)")
+madgwick = Madgwick(frequency=50, beta=0.1)
+madgwick.q0 = np.array([1.0, 0.0, 0.0, 0.0])  # Initialize with identity quaternion
 
 
 class MCUServerLeft:
@@ -59,8 +102,8 @@ class MCUServerLeft:
         self.servo_limits = {
             4: {"min": 1311, "max": 3665},
             5: {"min": 1545, "max": 2365},
-            6: {"min": 2560, "max": 2570},
-            7: {"min": 1635, "max": 3545},
+            6: {"min": 1040, "max": 1050},
+            7: {"min": 1313, "max": 3231},
             8: {"min": 1111, "max": 2363},
             9: {"min": 1380, "max": 1398},
         }
@@ -92,20 +135,33 @@ class MCUServerLeft:
         self.control_rate = 50  # Hz
         self.last_update_time = time.time()
         self.update_thread = None
+        self.imu_thread = None      # ✅ THÊM
+        self.servo_thread = None    # ✅ THÊM
 
         # Thread locks
         self.read_lock = threading.Lock()
         self.write_lock = threading.Lock()
-        
+        self.imu_lock = threading.Lock()
+
         logger.info(f"MCUServerLeft initialized (6 LEFT leg servos 4-9) on port {zmq_port}")
 
     def init_zmq(self) -> bool:
-        """Initialize ZeroMQ socket."""
+        """Initialize ZeroMQ sockets - BOTH REQ/REP and PUSH/PULL"""
         try:
-            self.socket = self.context.socket(zmq.REP)
-            self.socket.setsockopt(zmq.RCVTIMEO, 100)
-            self.socket.bind(f"tcp://*:{self.zmq_port}")
-            logger.info(f"✓ ZeroMQ socket bound to port {self.zmq_port}")
+            self.socket_rep = self.context.socket(zmq.REP)
+            self.socket_rep.setsockopt(zmq.RCVTIMEO, 100)
+            self.socket_rep.bind(f"tcp://*:{self.zmq_port}")  # 5555
+            logger.info(f"✓ REQ/REP socket bound to port {self.zmq_port} (feedback)")
+            
+            self.socket_pull = self.context.socket(zmq.PULL)
+            self.socket_pull.setsockopt(zmq.RCVTIMEO, 100)
+            self.socket_pull.bind(f"tcp://*:{self.zmq_port + 100}")  # 5655
+            logger.info(f"✓ PUSH/PULL socket bound to port {self.zmq_port + 100} (async commands)")
+            
+            self.poller = zmq.Poller()
+            self.poller.register(self.socket_rep, zmq.POLLIN)
+            self.poller.register(self.socket_pull, zmq.POLLIN)
+            
             return True
         except Exception as e:
             logger.error(f"✗ Failed to initialize ZeroMQ: {e}")
@@ -148,6 +204,7 @@ class MCUServerLeft:
                     return False
             
             logger.info(f"✓ Initial positions: {current_pos}")
+            logger.info("✅ Robot initialization complete")
             return True
             
         except Exception as e:
@@ -157,14 +214,15 @@ class MCUServerLeft:
             return False
 
     def update_servo_feedback(self) -> None:
-        """Read servo feedback for LEFT leg (motor 4-9)"""
+        """
+        ✅ OPTIMIZED: Read ONLY servo positions (no speed/load/voltage/current/temp)
+        This is 5x faster and enough for policy control!
+        """
         try:
             if not self.robot or not self.robot.is_connected:
                 logger.debug("Robot not connected")
                 return
 
-            logger.debug(f"Reading feedback from {len(self.servo_map)} motors...")
-        
             for servo_id in range(4, 10):
                 motor_name = self.servo_map[servo_id]
 
@@ -175,55 +233,91 @@ class MCUServerLeft:
                 try:
                     idx = servo_id - 4
                     
-                    # Read position
+                    # ⭐ CHỈ đọc position (1 read per motor ~20ms)
                     pos = self.robot.bus.read("Present_Position", motor_name, normalize=False)
-                    
-                    logger.debug(f"[Read] {motor_name}: pos={pos}")
                     
                     if pos is not None and pos > 0:
                         with self.read_lock:
                             self.state_data["servo_pos"][idx] = int(pos)
-                        logger.info(f"✓ {motor_name} (ID {servo_id}): pos={int(pos)} ticks")
+                        logger.debug(f"✓ {motor_name}: pos={int(pos)}")
                     else:
                         with self.read_lock:
                             old_value = self.state_data["servo_pos"][idx]
-                        logger.warning(f"⚠️  {motor_name} (ID {servo_id}): read failed, keeping {old_value}")
+                        logger.warning(f"⚠️  {motor_name}: read failed, keeping {old_value}")
                     
-                    # Read other sensor data
-                    speed = self.robot.bus.read("Present_Velocity", motor_name, normalize=False)
-                    if speed is not None:
-                        with self.read_lock:
-                            self.state_data["servo_speed"][idx] = int(speed)
+                    # ⭐ BỎ: speed, load, voltage, current, temp (không cần cho policy)
+                    # (Chỉ enable khi debug hoặc monitor robot health)
                     
-                    load = self.robot.bus.read("Present_Load", motor_name, normalize=False)
-                    if load is not None:
-                        with self.read_lock:
-                            self.state_data["servo_load"][idx] = int(load)
-                    
-                    voltage = self.robot.bus.read("Present_Voltage", motor_name, normalize=False)
-                    if voltage is not None:
-                        with self.read_lock:
-                            self.state_data["servo_voltage"][idx] = int(voltage)
-                    
-                    current = self.robot.bus.read("Present_Current", motor_name, normalize=False)
-                    if current is not None:
-                        with self.read_lock:
-                            self.state_data["servo_current"][idx] = int(current)
-                    
-                    temp = self.robot.bus.read("Present_Temperature", motor_name, normalize=False)
-                    if temp is not None:
-                        with self.read_lock:
-                            self.state_data["servo_temp"][idx] = int(temp)
-
                 except Exception as e:
-                    logger.error(f"Exception reading {motor_name} (ID {servo_id}): {e}")
+                    logger.error(f"Exception reading {motor_name}: {e}")
 
         except Exception as e:
             logger.error(f"Error in update_servo_feedback: {e}")
 
     def update_imu_data(self) -> None:
-        """Update IMU data (placeholder)."""
-        pass
+        """Update IMU data with calibration and store in state_data."""
+        try:
+            global filtered_ax, filtered_ay, filtered_az, filtered_gx, filtered_gy, filtered_gz
+            
+            if IMU.dataReady():
+                IMU.getAgmt()
+                
+                # Read raw data
+                ax_raw = IMU.axRaw
+                ay_raw = IMU.ayRaw
+                az_raw = IMU.azRaw
+                
+                gx_raw = IMU.gxRaw
+                gy_raw = IMU.gyRaw
+                gz_raw = IMU.gzRaw
+                
+                # ✅ Calibrate and convert accelerometer (LSB → m/s²)
+                ax_lsb = (ax_raw - ax_bias) / ax_scale
+                ay_lsb = (ay_raw - ay_bias) / ay_scale
+                az_lsb = (az_raw - az_bias) / az_scale
+                
+                ax = ax_lsb / SENSITIVITY * G
+                ay = ay_lsb / SENSITIVITY * G
+                az = az_lsb / SENSITIVITY * G
+                
+                # ✅ Calibrate and convert gyroscope (LSB → °/s → rad/s)
+                gx_deg = (gx_raw - gx_bias) / GYRO_SENSITIVITY
+                gy_deg = (gy_raw - gy_bias) / GYRO_SENSITIVITY
+                gz_deg = (gz_raw - gz_bias) / GYRO_SENSITIVITY
+                
+                gx = gx_deg * math.pi / 180
+                gy = gy_deg * math.pi / 180
+                gz = gz_deg * math.pi / 180
+                
+                # ✅ Apply low-pass filter for smooth data
+                filtered_ax = ACCEL_ALPHA * ax + (1 - ACCEL_ALPHA) * filtered_ax
+                filtered_ay = ACCEL_ALPHA * ay + (1 - ACCEL_ALPHA) * filtered_ay
+                filtered_az = ACCEL_ALPHA * az + (1 - ACCEL_ALPHA) * filtered_az
+                
+                filtered_gx = GYRO_ALPHA * gx + (1 - GYRO_ALPHA) * filtered_gx
+                filtered_gy = GYRO_ALPHA * gy + (1 - GYRO_ALPHA) * filtered_gy
+                filtered_gz = GYRO_ALPHA * gz + (1 - GYRO_ALPHA) * filtered_gz
+                
+                # ✅ Update Madgwick filter with filtered data
+                q_new = madgwick.updateIMU(
+                    q=madgwick.q0,
+                    gyr=np.array([filtered_gx, filtered_gy, filtered_gz]),
+                    acc=np.array([filtered_ax, filtered_ay, filtered_az])
+                )
+                madgwick.q0 = q_new
+                
+                # ✅ Store quaternion in state_data
+                with self.imu_lock:
+                    self.state_data["imu"] = list(q_new)  # [w, x, y, z]
+                
+                # logger.debug(
+                #     f"IMU: ax={ax:+.4f}, ay={ay:+.4f}, az={az:+.4f} | "
+                #     f"gx={gx_deg:+.2f}°/s, gy={gy_deg:+.2f}°/s, gz={gz_deg:+.2f}°/s | "
+                #     f"q=[{q_new[0]:+.4f}, {q_new[1]:+.4f}, {q_new[2]:+.4f}, {q_new[3]:+.4f}]"
+                # )
+                    
+        except Exception as e:
+            logger.error(f"Error updating IMU data: {e}")
 
     def update_distance_sensors(self) -> None:
         """Update distance sensors (placeholder)."""
@@ -324,8 +418,14 @@ class MCUServerLeft:
                 }
 
             elif cmd_type == "feedback":
+                # ✅ THÊM: Trả về gyro data
+                with self.imu_lock:
+                    imu_quat = self.state_data["imu"].copy()
+                
                 return {
                     "status": "success",
+                    "quat": imu_quat,
+                    "gyro": [filtered_gx, filtered_gy, filtered_gz],  # ✅ THÊM
                     "servo_pos": self.state_data["servo_pos"],
                     "servo_speed": self.state_data["servo_speed"],
                     "servo_load": self.state_data["servo_load"],
@@ -335,7 +435,7 @@ class MCUServerLeft:
                 }
 
             elif cmd_type == "home":
-                home_pos = [3536, 1988, 2564, 2535, 1614, 1390]
+                home_pos = [3366, 1958, 1042, 2317, 1584, 1390]
                 success = self.apply_new_positions(home_pos)
                 return {
                     "status": "success" if success else "error",
@@ -370,65 +470,117 @@ class MCUServerLeft:
             logger.error(f"Error processing command: {e}")
             return {"status": "error", "message": str(e)}
 
-    def update_loop(self) -> None:
-        """Background update loop"""
-        logger.info("Update loop started (like Arduino loop())")
-
+    def imu_loop(self) -> None:
+        """✅ IMU thread - 50Hz independent loop"""
+        logger.info("IMU loop started (50Hz - independent)")
+        
         while self.running:
             try:
                 self.update_imu_data()
-                
-                if self.read_lock.acquire(timeout=0.005):
+                time.sleep(0.02)  # 50Hz = 20ms
+            except Exception as e:
+                logger.error(f"Error in IMU loop: {e}")
+                time.sleep(0.01)
+        
+        logger.info("IMU loop stopped")
+
+    def servo_loop(self) -> None:
+        """✅ Servo thread - 25Hz independent loop"""
+        logger.info("Servo loop started (25Hz - independent)")
+        
+        while self.running:
+            try:
+                if self.read_lock.acquire(timeout=0.01):
                     try:
                         self.update_servo_feedback()
                     finally:
                         self.read_lock.release()
                 else:
-                    logger.debug("Read lock busy, skipping feedback update")
+                    logger.debug("Read lock busy, skipping servo feedback")
                 
                 self.update_distance_sensors()
-
-                elapsed = time.time() - self.last_update_time
-                sleep_time = (1.0 / self.control_rate) - elapsed
-                if sleep_time > 0:
-                    time.sleep(sleep_time)
-
-                self.last_update_time = time.time()
-
+                time.sleep(0.04)  # 25Hz = 40ms
+                
             except Exception as e:
-                logger.error(f"Error in update loop: {e}")
+                logger.error(f"Error in Servo loop: {e}")
                 time.sleep(0.01)
+        
+        logger.info("Servo loop stopped")
 
-        logger.info("Update loop stopped")
+    def update_loop(self) -> None:
+        """⚠️ KHÔNG DÙNG NỮA"""
+        logger.info("⚠️  Main update loop (deprecated)")
+        while self.running:
+            time.sleep(0.1)
+        logger.info("Main update loop stopped")
 
     def run(self) -> None:
-        """Main server loop"""
+        """Main server loop - Monitor cả REQ/REP và PUSH/PULL"""
         self.running = True
 
-        self.update_thread = threading.Thread(target=self.update_loop, daemon=True)
-        self.update_thread.start()
+        # ✅ START IMU thread (50Hz)
+        self.imu_thread = threading.Thread(target=self.imu_loop, daemon=True)
+        self.imu_thread.start()
+        logger.info("✓ IMU loop thread started (50Hz)")
 
-        logger.info("MCU Server (LEFT) started and waiting for commands...")
+        # ✅ START Servo thread (25Hz)
+        self.servo_thread = threading.Thread(target=self.servo_loop, daemon=True)
+        self.servo_thread.start()
+        logger.info("✓ Servo loop thread started (25Hz)")
+
+        # ✅ WARMUP IMU
+        logger.info("⏳ Warming up IMU (filter convergence)...")
+        warmup_time = 5.0
+        warmup_start = time.time()
+        imu_samples = 0
+        valid_count = 0
+        
+        while time.time() - warmup_start < warmup_time:
+            time.sleep(0.02)
+            imu_samples += 1
+            
+            with self.imu_lock:
+                imu_data = self.state_data["imu"].copy()
+            
+            if imu_data != [0.0, 0.0, 0.0, 0.0]:
+                valid_count += 1
+                if valid_count % 50 == 0:
+                    logger.info(f"  ✓ IMU valid: {valid_count} samples")
+        
+        logger.info(f"✅ Warmup complete: {imu_samples} samples, {valid_count} valid")
+        logger.info("MCU Server started with separate IMU/Servo loops...")
 
         try:
             while self.running:
-                try:
-                    message = self.socket.recv_json()
-                    logger.debug(f"Received command: {message}")
-
-                    response = self.process_command(message)
-
-                    self.socket.send_json(response)
-
-                except zmq.Again:
-                    time.sleep(0.01)
-
-                except json.JSONDecodeError as e:
-                    logger.error(f"Invalid JSON received: {e}")
+                # ⭐ THÊM: Use poller để monitor cả 2 sockets
+                socks = dict(self.poller.poll(timeout=10))
+                
+                # ✅ Process REQ/REP (feedback queries)
+                if self.socket_rep in socks:
                     try:
-                        self.socket.send_json({"status": "error", "message": "Invalid JSON"})
-                    except:
+                        message = self.socket_rep.recv_json()
+                        logger.debug(f"REQ: {message}")
+                        response = self.process_command(message)
+                        self.socket_rep.send_json(response)
+                    except zmq.Again:
                         pass
+                    except Exception as e:
+                        logger.error(f"REQ/REP error: {e}")
+                
+                # ⭐ THÊM: Process PUSH/PULL (async commands)
+                if self.socket_pull in socks:
+                    try:
+                        command = self.socket_pull.recv_json()
+                        logger.debug(f"PUSH: {command}")
+                        # ✅ SỬA: Chỉ process move commands (không cần response)
+                        if command.get("type") == "move":
+                            positions = command.get("positions", [])
+                            self.apply_new_positions(positions)
+                            logger.info(f"✓ Async move applied: {positions}")
+                    except zmq.Again:
+                        pass
+                    except Exception as e:
+                        logger.error(f"PUSH/PULL error: {e}")
 
         except KeyboardInterrupt:
             logger.info("Server interrupted by user")
@@ -436,16 +588,28 @@ class MCUServerLeft:
             logger.error(f"Server error: {e}")
         finally:
             self.shutdown()
-
+    
     def shutdown(self) -> None:
         """Shutdown the server"""
         self.running = False
 
+        # Wait for threads
+        if self.imu_thread:
+            self.imu_thread.join(timeout=2.0)
+            logger.info("IMU thread stopped")
+
+        if self.servo_thread:
+            self.servo_thread.join(timeout=2.0)
+            logger.info("Servo thread stopped")
+
         if self.update_thread:
             self.update_thread.join(timeout=2.0)
 
-        if self.socket:
-            self.socket.close()
+        # ⭐ THÊM: Close cả 2 sockets
+        if self.socket_rep:
+            self.socket_rep.close()
+        if self.socket_pull:
+            self.socket_pull.close()
 
         if self.robot:
             try:
@@ -454,7 +618,7 @@ class MCUServerLeft:
                 logger.warning(f"Error disconnecting robot: {e}")
 
         self.context.term()
-        logger.info("MCU Server (LEFT) shutdown complete")
+        logger.info("MCU Server shutdown complete")
 
 
 def main():
@@ -466,8 +630,15 @@ def main():
     parser.add_argument("--serial-port", type=str, default="/dev/ttyACM0", help="Servo serial port")
     parser.add_argument("--speed", type=int, default=3400, help="Default servo speed")
     parser.add_argument("--acceleration", type=int, default=254, help="Default servo acceleration")
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging")  # ✅ Thêm
 
     args = parser.parse_args()
+
+    # ✅ Set log level based on --debug flag
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+    else:
+        logging.getLogger().setLevel(logging.INFO)
 
     server = MCUServerLeft(zmq_port=args.port, serial_port=args.serial_port)
     server.servo_speed = args.speed
@@ -476,6 +647,7 @@ def main():
     try:
         if not server.init_zmq():
             return
+
         if not server.init_robot():
             return
 
@@ -485,7 +657,6 @@ def main():
         logger.error(f"Failed to start server: {e}")
     finally:
         server.shutdown()
-
 
 if __name__ == "__main__":
     main()
