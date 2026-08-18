@@ -7,12 +7,6 @@ This makes it easier to command motors with intuitive angle values.
 """
 
 import json
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
-from lerobot.motors import MotorCalibration, MotorNormMode
 
 
 def normalize_calibration(input_file: str, output_file: str = None):
@@ -145,7 +139,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Normalize motor calibration")
     parser.add_argument(
         "--input",
-        default="config/calibration/rightcalib.json",
+        default="rightcalib.json",
         help="Input calibration file",
     )
     parser.add_argument(
