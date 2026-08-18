@@ -13,7 +13,7 @@ SENSITIVITY = 16384.0  # Accelerometer
 G = 9.81 #gia tốc trọng trường của trái đất 
 
 # Load calibration
-with open("/home/mobile2/leg2_bipedal/imu/imu_calib.json", "r") as f:
+with open("vinhgyrocalib.json", "r") as f:
     calib = json.load(f)
 
 #TẠM THỜI BỎ QUA PHẦN CALIB ACCEL 

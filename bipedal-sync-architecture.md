@@ -4,7 +4,7 @@
 
 Robot đi 2 chân (bipedal), thiết kế **module hóa** — mỗi chân là 1 module điện tử độc lập hoàn toàn. Mỗi module có thể chạy standalone (1 chân riêng cho 1 tác vụ) hoặc ghép 2 module lại thành robot bipedal.
 
-**Target**: robot ~3 kg, dáng đi walking gait, điều khiển bằng RL policy hoặc inverse kinematics.
+**Target**: robot ~5 kg, dáng đi walking gait, điều khiển bằng RL policy hoặc inverse kinematics.
 
 ---
 
