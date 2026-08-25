@@ -10,22 +10,32 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 SENSITIVITY = 16384.0  # Accelerometer
-G = 9.81
+G = 9.81 #gia tốc trọng trường của trái đất 
 
 # Load calibration
-with open("/home/mobile2/leg2_bipedal/imu/imu_calib.json", "r") as f:
+with open("vinhgyrocalib.json", "r") as f:
     calib = json.load(f)
 
-# Accelerometer calibration
-ax_bias = calib["ax_bias"]
-ay_bias = calib["ay_bias"]
-az_bias = calib["az_bias"]
+#TẠM THỜI BỎ QUA PHẦN CALIB ACCEL 
+#  Accelerometer calibration
+# ax_bias = calib["ax_bias"]
+# ay_bias = calib["ay_bias"]
+# az_bias = calib["az_bias"]
 
-ax_scale = calib["ax_scale"]
-ay_scale = calib["ay_scale"]
-az_scale = calib["az_scale"]
+# ax_scale = calib["ax_scale"]
+# ay_scale = calib["ay_scale"]
+# az_scale = calib["az_scale"]
 
-# ✅ Gyroscope calibration
+ax_bias = 0
+ay_bias = 0
+az_bias = 0
+
+ax_scale = 1
+ay_scale = 1
+az_scale = 1
+
+
+#Lấy thông số bias và sensitivity của gyro từ file calib
 gx_bias = calib.get("gx_bias", 0)
 gy_bias = calib.get("gy_bias", 0)
 gz_bias = calib.get("gz_bias", 0)
@@ -62,20 +72,24 @@ try:
         if IMU.dataReady():
             IMU.getAgmt()
             
-            # Read raw data
+            #Đọc dữ liệu thô từ cảm biến 
             ax_raw, ay_raw, az_raw = IMU.axRaw, IMU.ayRaw, IMU.azRaw
             gx_raw, gy_raw, gz_raw = IMU.gxRaw, IMU.gyRaw, IMU.gzRaw
             
-            # ✅ Calibrate and convert accelerometer
-            ax_lsb = (ax_raw - ax_bias) / ax_scale
-            ay_lsb = (ay_raw - ay_bias) / ay_scale
-            az_lsb = (az_raw - az_bias) / az_scale
+            # TẠM THỜI BỎ QUA PHẦN CALIB ACCEL 
+            # ax_lsb = (ax_raw - ax_bias) / ax_scale
+            # ay_lsb = (ay_raw - ay_bias) / ay_scale
+            # az_lsb = (az_raw - az_bias) / az_scale
+
+            ax_lsb = ax_raw / ax_scale
+            ay_lsb = ay_raw / ay_scale
+            az_lsb = az_raw / az_scale  
             
             ax = ax_lsb / SENSITIVITY * G
             ay = ay_lsb / SENSITIVITY * G
             az = az_lsb / SENSITIVITY * G
             
-            # ✅ Calibrate and convert gyroscope (CORRECT WAY)
+            #  Calibrate and convert gyroscope (CORRECT WAY)
             gx_deg = (gx_raw - gx_bias) / GYRO_SENSITIVITY
             gy_deg = (gy_raw - gy_bias) / GYRO_SENSITIVITY
             gz_deg = (gz_raw - gz_bias) / GYRO_SENSITIVITY
@@ -100,7 +114,26 @@ try:
                 acc=np.array([filtered_ax, filtered_ay, filtered_az])
             )
             madgwick.q0 = q_new
-            
+
+            qw, qx, qy, qz = q_new
+                
+             # Tính Roll (X-axis) - Nghiêng trái/phải
+            sinr_cosp = 2 * (qw * qx + qy * qz)
+            cosr_cosp = 1 - 2 * (qx * qx + qy * qy)
+            roll = math.atan2(sinr_cosp, cosr_cosp) * (180.0 / math.pi)
+    
+            # Tính Pitch (Y-axis) - Ngả tới/lui
+            sinp = 2 * (qw * qy - qz * qx)
+            if abs(sinp) >= 1:
+                pitch = math.copysign(90.0, sinp) # Giới hạn ở 90 độ
+            else:
+                pitch = math.asin(sinp) * (180.0 / math.pi)
+
+            # Tính Yaw (Z-axis) - Xoay vòng quanh trục
+            siny_cosp = 2 * (qw * qz + qx * qy)
+            cosy_cosp = 1 - 2 * (qy * qy + qz * qz)
+            yaw = math.atan2(siny_cosp, cosy_cosp) * (180.0 / math.pi)
+
             sample_count += 1
             
             # Print results
@@ -120,6 +153,11 @@ try:
             print(f"\n[MADGWICK QUATERNION]")
             print(f"  q = [{q_new[0]:+.6f}, {q_new[1]:+.6f}, {q_new[2]:+.6f}, {q_new[3]:+.6f}]")
             print(f"  (w, x, y, z)")
+
+            print(f"\n[GÓC EULER THỰC TẾ (Độ)]")
+            print(f"  Roll (Nghiêng trái/phải): {roll:+.2f}°")
+            print(f"  Pitch (Ngả tới/lui):      {pitch:+.2f}°")
+            print(f"  Yaw (Xoay tròn):          {yaw:+.2f}°")
             
             time.sleep(0.02)
             

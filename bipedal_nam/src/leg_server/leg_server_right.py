@@ -2,7 +2,7 @@ import zmq
 import json
 import struct
 import time
-import threading
+import threading #thư viện tạo luồng giúp chạy song song nhiều tác vụ cùng lúc 
 from typing import Dict, List, Optional
 import logging
 from collections import deque
@@ -10,12 +10,13 @@ import sys
 from pathlib import Path
 import qwiic_icm20948
 import math
-from ahrs.filters import Madgwick
-import numpy as np
+from ahrs.filters import Madgwick #thuật toán học madgwick, kết hợp accelerator và gyroscope  
+import numpy as np               
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+#Import class BipedalRobot và BipedalConfig từ bipedal_robot.py
 from bipedal_robot import BipedalRobot, BipedalConfig
 
 # Configure logging
@@ -28,21 +29,21 @@ logger = logging.getLogger(__name__)
 # ==============================
 # Load calibration
 # ==============================
-with open("/home/mobile1/leg1_bipedal/imu/imu_calib.json", "r") as f:
-    calib = json.load(f)
+# with open("/home/mobile1/leg1_bipedal/imu/imu_calib.json", "r") as f:
+#     calib = json.load(f)
 
-ax_bias = calib["ax_bias"]
-ay_bias = calib["ay_bias"]
-az_bias = calib["az_bias"]
+ax_bias = 0
+ay_bias = 0
+az_bias = 0
 
-ax_scale = calib["ax_scale"]
-ay_scale = calib["ay_scale"]
-az_scale = calib["az_scale"]
+ax_scale = 1.0
+ay_scale = 1.0
+az_scale = 1.0
 
-gx_bias = calib.get("gx_bias", 0)
-gy_bias = calib.get("gy_bias", 0)
-gz_bias = calib.get("gz_bias", 0)
-GYRO_SENSITIVITY = calib.get("gyro_sensitivity", 65.536)  # ±500°/s range
+gx_bias = 0
+gy_bias = 0
+gz_bias = 0
+GYRO_SENSITIVITY = 65.536
 
 SENSITIVITY = 16384.0
 G = 9.81
@@ -53,7 +54,8 @@ GYRO_ALPHA = 0.15
 filtered_ax, filtered_ay, filtered_az = 0.0, 0.0, 0.0
 filtered_gx, filtered_gy, filtered_gz = 0.0, 0.0, 0.0
 
-# Initialize IMU
+# KHỞI ĐỘNG CẢM BIẾN IMU 
+#dấu . là để truy cập class trong thư viện qwiic_icm 
 IMU = qwiic_icm20948.QwiicIcm20948()
 if not IMU.connected:
     logger.error("IMU not found! Exiting...")
@@ -61,13 +63,14 @@ if not IMU.connected:
 
 IMU.begin()
 logger.info("ICM-20948 IMU initialized (calibrated, output in m/s²)")
-madgwick = Madgwick(frequency=50, beta=0.1)
-madgwick.q0 = np.array([1.0, 0.0, 0.0, 0.0])  # Initialize with identity quaternion
+madgwick = Madgwick(frequency=50, beta=0.1)  #thông số của bộ lọc madgwick, tần số 50Hz, beta=0.1, trả về quaternion 
+madgwick.q0 = np.array([1.0, 0.0, 0.0, 0.0])  # giá trị ban đầu quaternion 
 
-
+#Khởi tạo server cho Pi 5 
 class MCUServer:
     """Main MCU control server for Bimo robot on Raspberry Pi 5."""
 
+    #HÀM KHỞI TẠO: ZMQ - SERIAL - GIỚI HẠN GÓC - STATE - LUỒNG 
     def __init__(self, zmq_port: int = 5555, serial_port: str = "/dev/ttyACM0"):
         """
         Initialize MCU server - CHỈ cho 6 leg motors (servo 4-9).
@@ -85,7 +88,7 @@ class MCUServer:
         self.config = BipedalConfig(port=serial_port, baudrate=1_000_000)
         self.robot = None
 
-        # ✅ SỬA: Servo mapping CHỈ motor 4-9 (leg motors)
+        # Tên các servo trên chân phải (motor 4-9)
         self.servo_map = {
             4: "bubright_joint",               # leg_bub (sts3095)
             5: "hipright_joint",               # leg_hip (sts3095)
@@ -99,7 +102,7 @@ class MCUServer:
         self.servo_speed = 3400      # Goal velocity (like WritePosEx speed param)
         self.servo_accel = 254       # Acceleration (like WritePosEx acceleration param)
 
-        # ✅ SỬA: Servo limits CHỈ cho motor 4-9
+        # Giới hạn vị trí servo (min/max) cho 6 servo chân phải
         self.servo_limits = {
             4: {"min": 300, "max": 2432},
             5: {"min": 2240, "max": 3075},
@@ -109,14 +112,14 @@ class MCUServer:
             9: {"min": 2044, "max": 2050},       
         }
 
-        # ✅ SỬA: Current positions CHỈ 6 servos (motor 4-9)
+        # vị trí hiện tại và mục tiêu của 6 servo chân phải
         self.current_positions = [0] * 6  # 6 slots
         self.target_positions = [0] * 6   # 6 slots
 
         # Servo feedback history
         self.feedback_history = deque(maxlen=100)
 
-        # ✅ SỬA: State data CHỈ 6 servos (motor 4-9)
+        # trạng thái  
         self.state_data = {
             "imu": [0.0, 0.0, 0.0, 0.0],       # Quaternion [w, x, y, z]
             "distance": [0, 0, 0, 0],          # Distance sensors
@@ -146,6 +149,7 @@ class MCUServer:
         
         logger.info(f"MCUServer initialized (6 leg servos 4-9) on port {zmq_port}")
 
+    #KHỞI TẠO VÀ KẾT NỐI CÁC SOCKET ZMQ - MỞ SOCKET REQ/REP VÀ PUSH PULL 
     def init_zmq(self) -> bool:
         """Initialize ZeroMQ sockets - BOTH REQ/REP and PUSH/PULL"""
         try:
@@ -171,6 +175,7 @@ class MCUServer:
             logger.error(f"✗ Failed to initialize ZeroMQ: {e}")
             return False
 
+    #KHỞI TAỌ KẾT NỐI VỚI SERVO QUA CLASS BIPEDALROBOT 
     def init_robot(self) -> bool:
         """Initialize BipedalRobot with initial feedback read"""
         try:
@@ -220,6 +225,7 @@ class MCUServer:
             logger.error(f"✗ Failed to initialize robot: {e}")
             return False
 
+    #ĐỌC DỮ LIỆU TỪ SERVO - LƯU VÀO STATE DATA - CHỈ ĐỌC POSITION
     def update_servo_feedback(self) -> None:
         """
         ✅ OPTIMIZED: Read ONLY servo positions
@@ -255,6 +261,7 @@ class MCUServer:
         except Exception as e:
             logger.error(f"Error in update_servo_feedback: {e}")
 
+    #XỬ LÍ IMU - ĐỌC - BÙ - LỌC - TÍNH QUATERNION
     def update_imu_data(self) -> None:
         """Update IMU data with calibration and store in state_data."""
         try:
@@ -300,11 +307,12 @@ class MCUServer:
                 filtered_gy = GYRO_ALPHA * gy + (1 - GYRO_ALPHA) * filtered_gy
                 filtered_gz = GYRO_ALPHA * gz + (1 - GYRO_ALPHA) * filtered_gz
                 
-                # ✅ Update Madgwick filter with filtered data
+                # ÁP DỤNG BỘ LỌC MADGWỊCK ĐỂ TÍNH QUATERNION
                 q_new = madgwick.updateIMU(
-                    q=madgwick.q0,
-                    gyr=np.array([filtered_gx, filtered_gy, filtered_gz]),
-                    acc=np.array([filtered_ax, filtered_ay, filtered_az])
+                    q=madgwick.q0, #góc nghiêng cũ của nhịp trước 
+                    gyr=np.array([filtered_gx, filtered_gy, filtered_gz]), #tốc độ góc từ gyroscope
+                    acc=np.array([filtered_ax, filtered_ay, filtered_az]) #gia tốc từ accelerometer
+                    #madgwick tính toán quaternion rồi trả về q_new, rồi lưu lại thành góc nghiêng cũ cho loop tiếp theo 
                 )
                 madgwick.q0 = q_new
                 
@@ -323,12 +331,11 @@ class MCUServer:
             logger.error(f"Error updating IMU data: {e}")
 
 
-    def update_distance_sensors(self) -> None:
-        """Update distance sensor data (placeholder)."""
         # TODO: Integrate actual distance sensors
         # Example: self.state_data["distance"] = [front, back, right, left]
         pass
 
+    #ĐÓNG GÓI TRẠNG THÁI HIỆN TẠI CỦA ROBOT THÀNH BYTES (GỬI QUA ZMQ)
     def get_state_data_bytes(self) -> bytes:
         """Get state data as bytes - CHỈ 6 leg servos"""
         try:
@@ -353,6 +360,7 @@ class MCUServer:
             logger.error(f"Error packing state data: {e}")
             return b""
 
+    #GỬI LỆNH ĐIỀU KHIỂN VỊ TRÍ MỚI ĐẾN SERVO - KTRA GIỚI HẠN 
     def apply_new_positions(self, positions: List[int]) -> bool:
         """
         ✅ SỬA: Ghi vị trí với write_lock (ngắn hơn).
@@ -438,6 +446,7 @@ class MCUServer:
             logger.error(f"Error processing request: {e}")
             return None
 
+    #XỬ LÍ CÁC LỆNH ĐIỀU KHIỂN TỪ CLIENT QUA ZMQ
     def process_command(self, command: Dict) -> Dict:
         """Process incoming command"""
         try:
@@ -460,6 +469,7 @@ class MCUServer:
                     "status": "success",
                     "quat": imu_quat,
                     "gyro": [filtered_gx, filtered_gy, filtered_gz],  # ✅ THÊM
+                    "accel": [filtered_ax, filtered_ay, filtered_az],
                     "servo_pos": self.state_data["servo_pos"],
                     "servo_speed": self.state_data["servo_speed"],
                     "servo_load": self.state_data["servo_load"],
@@ -504,7 +514,7 @@ class MCUServer:
             logger.error(f"Error processing command: {e}")
             return {"status": "error", "message": str(e)}
 
-    # ✅ THÊM: IMU loop riêng
+    #LOOP CHỈ ĐỌC DATA IMU
     def imu_loop(self) -> None:
         """✅ IMU thread - 50Hz independent loop"""
         logger.info("IMU loop started (50Hz - independent)")
@@ -519,7 +529,7 @@ class MCUServer:
         
         logger.info("IMU loop stopped")
 
-    # ✅ THÊM: Servo loop riêng
+    #LOOP CHỈ ĐỌC SERVO POSITION
     def servo_loop(self) -> None:
         """✅ Servo thread - 25Hz independent loop"""
         logger.info("Servo loop started (25Hz - independent)")
@@ -543,15 +553,13 @@ class MCUServer:
         
         logger.info("Servo loop stopped")
 
-    # ✅ THAY: update_loop() → chỉ deprecated placeholder
-    def update_loop(self) -> None:
         """⚠️ KHÔNG DÙNG NỮA"""
         logger.info("⚠️  Main update loop (deprecated)")
         while self.running:
             time.sleep(0.1)
         logger.info("Main update loop stopped")
 
-    # ✅ SỬA: run() để start 2 threads
+    #HÀM VÒNG LẶP CHÍNH CỦA SERVER - MONITOR CẢ 2 SOCKETS ZMQ
     def run(self) -> None:
         """Main server loop - Monitor cả REQ/REP và PUSH/PULL"""
         self.running = True
@@ -626,7 +634,7 @@ class MCUServer:
             logger.error(f"Server error: {e}")
         finally:
             self.shutdown()
-    
+
     def shutdown(self) -> None:
         """Shutdown the server"""
         self.running = False
