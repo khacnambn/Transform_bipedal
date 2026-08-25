@@ -114,48 +114,9 @@ class SimpleIMUFusion:
         return [q[0], -q[1], -q[2], -q[3]]
 
     def transform_quat_to_baselink(self, q_imu, imu_name):
-        """ """
-        if imu_name == "left":
-            # LEFT: Quay -90° quanh Z (Counter-clockwise khi nhìn từ trên)
-            # Công thức: angle = -90°, axis = [0, 0, 1]
-            angle = -math.pi / 2  # -90°
-            axis = np.array([0, 0, 1])
-        else:  # right
-            # RIGHT: Quay 90° quanh Z (Clockwise khi nhìn từ trên)
-            # Công thức: angle = 90°, axis = [0, 0, 1]
-            angle = math.pi / 2  # 90°
-            axis = np.array([0, 0, 1])
-
-        # ✅ Tạo quaternion từ axis-angle (đúng cách)
-        half_angle = angle / 2
-        sin_half = math.sin(half_angle)
-        cos_half = math.cos(half_angle)
-
-        q_rot = [
-            cos_half,  # w
-            axis[0] * sin_half,  # x
-            axis[1] * sin_half,  # y
-            axis[2] * sin_half,  # z
-        ]
-
-        # Normalize
-        q_rot = self.quat_normalize(q_rot)
-        q_imu = self.quat_normalize(q_imu)
-
-        # ✅ Apply: q_baselink = q_rot * q_imu * q_rot^-1
-        q_temp = self.quat_mult(q_rot, q_imu)
-        q_baselink = self.quat_mult(q_temp, self.quat_conj(q_rot))
-
-        return self.quat_normalize(q_baselink)
-
-    def transform_quat_to_baselink_debug(self, q_imu, imu_name):
-        """Debug version - in tất cả các bước"""
-        if imu_name == "left":
-            angle = -math.pi / 2
-            axis = np.array([0, 0, 1])
-        else:
-            angle = math.pi / 2
-            axis = np.array([0, 0, 1])
+        """Chuyển quaternion sang Baselink (Xoay 90 độ chung cho cả 2 để khớp với Sim)"""
+        angle = math.pi / 2
+        axis = np.array([0, 0, 1])
 
         half_angle = angle / 2
         sin_half = math.sin(half_angle)
@@ -165,46 +126,35 @@ class SimpleIMUFusion:
         q_rot = self.quat_normalize(q_rot)
         q_imu = self.quat_normalize(q_imu)
 
-        print(f"\n  🔍 {imu_name.upper()} TRANSFORM DEBUG:")
-        print(f"     Rotation angle: {angle * 180/math.pi:+.1f}° around Z")
-        print(
-            f"     q_rot (axis-angle): w={q_rot[0]:+.4f} x={q_rot[1]:+.4f} y={q_rot[2]:+.4f} z={q_rot[3]:+.4f}"
-        )
-        print(
-            f"     q_imu (raw):        w={q_imu[0]:+.4f} x={q_imu[1]:+.4f} y={q_imu[2]:+.4f} z={q_imu[3]:+.4f}"
-        )
-
-        # Step 1: q_rot * q_imu
         q_temp = self.quat_mult(q_rot, q_imu)
-        print(
-            f"     [Step 1] q_rot * q_imu:      w={q_temp[0]:+.4f} x={q_temp[1]:+.4f} y={q_temp[2]:+.4f} z={q_temp[3]:+.4f}"
-        )
-
-        # Step 2: * q_rot_conjugate
-        q_rot_conj = self.quat_conj(q_rot)
-        print(
-            f"     [Step 2] q_rot_conj:         w={q_rot_conj[0]:+.4f} x={q_rot_conj[1]:+.4f} y={q_rot_conj[2]:+.4f} z={q_rot_conj[3]:+.4f}"
-        )
-
-        q_baselink = self.quat_mult(q_temp, q_rot_conj)
-        print(
-            f"     [Result] q_baselink:         w={q_baselink[0]:+.4f} x={q_baselink[1]:+.4f} y={q_baselink[2]:+.4f} z={q_baselink[3]:+.4f}"
-        )
-
-        # ⚠️ CHỈNH SỬA: In ra thay đổi z-component
-        delta_z = q_baselink[3] - q_imu[3]
-        print(
-            f"     ⚠️  Z change: {q_imu[3]:+.4f} → {q_baselink[3]:+.4f} (Δ={delta_z:+.4f})"
-        )
+        q_baselink = self.quat_mult(q_temp, self.quat_conj(q_rot))
 
         return self.quat_normalize(q_baselink)
 
+    def transform_quat_to_baselink_debug(self, q_imu, imu_name):
+        """Debug version - in tất cả các bước (Xoay 90 độ chung cho cả 2 để khớp với Sim)"""
+        angle = math.pi / 2
+        axis = np.array([0, 0, 1])
+
+        half_angle = angle / 2
+        sin_half = math.sin(half_angle)
+        cos_half = math.cos(half_angle)
+
+        q_rot = [cos_half, axis[0] * sin_half, axis[1] * sin_half, axis[2] * sin_half]
+        q_rot = self.quat_normalize(q_rot)
+        q_imu = self.quat_normalize(q_imu)
+        
+        q_temp = self.quat_mult(q_rot, q_imu)
+        q_baselink = self.quat_mult(q_temp, self.quat_conj(q_rot))
+
+        print(f"\n  🔍 {imu_name.upper()} TRANSFORM DEBUG:")
+        print(f"     [Result] q_baselink:         w={q_baselink[0]:+.4f} x={q_baselink[1]:+.4f} y={q_baselink[2]:+.4f} z={q_baselink[3]:+.4f}")
+        
+        return self.quat_normalize(q_baselink)
+
     def transform_pos_to_baselink(self, pos, imu_name):
-        """Chuyển vị trí từ khung IMU sang Baselink"""
-        if imu_name == "left":
-            return self.left_rot @ pos
-        else:
-            return self.right_rot @ pos
+        """Chuyển vị trí từ khung IMU sang Baselink (Bỏ xoay vì trùng trục)"""
+        return pos
 
     def quat_to_euler(self, q):
         """Chuyển quaternion sang Euler angles (độ) - Gimbal-lock resistant"""

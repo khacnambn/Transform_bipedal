@@ -240,7 +240,8 @@ class IMUFusion:
 
     def transform_quat_to_baselink(self, q_imu: List[float]) -> List[float]:
         """Transform quaternion from IMU frame to Baselink frame"""
-        angle = math.pi / 2  # cái này sẽ dùng để xoay trục cho trùng với Sim
+        # Cả 2 IMU đã đặt trùng nhau, nhưng vẫn cần xoay 90 độ để trùng với hệ tọa độ của Sim (Baselink)
+        angle = math.pi / 2
         axis = np.array([0, 0, 1])
 
         half_angle = angle / 2
@@ -268,20 +269,13 @@ class IMUFusion:
         """Transform gyro data from IMU frame to Baselink frame"""
         gyro_array = np.array(gyro, dtype=float)
 
+        # Xoay 90 độ để trùng với Sim (Baselink)
         angle = math.pi / 2
-        # cái này dùng để xoay trục gyro, phải đặt giống cái đã xoay trong cái quay quaternion ở trên
-
-        # Rotation matrix quanh trục Z
         cos_a = math.cos(angle)
         sin_a = math.sin(angle)
 
         Rz = np.array([[cos_a, -sin_a, 0], [sin_a, cos_a, 0], [0, 0, 1]])
         gyro_transformed = Rz.T @ gyro_array
-
-        # # Áp dụng transpose (vì gyro là angular velocity)
-        # gyro_transformed = Rz.T @ gyro_array
-        # gyro_transformed[0] *= -1  # Flip GX
-        # gyro_transformed[1] *= -1  # Flip GY
 
         return gyro_transformed
 
