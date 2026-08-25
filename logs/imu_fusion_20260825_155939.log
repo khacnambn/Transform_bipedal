@@ -1,0 +1,1717 @@
+📝 Log (text):  /home/lenovo-loq/Desktop/Transform_bipedal_vinhust/logs/imu_fusion_20260825_155939.log
+📝 Log (jsonl): /home/lenovo-loq/Desktop/Transform_bipedal_vinhust/logs/imu_fusion_20260825_155939.jsonl
+✓ LEFT IMU controller connected to mobile2.local:5556
+✓ RIGHT IMU controller connected to mobile1.local:5555
+
+================================================================================
+✓ SimpleIMUFusion initialized
+  LEFT:  mobile2.local:5556
+  RIGHT: mobile1.local:5555
+================================================================================
+
+================================================================================
+🔄 IMU FUSION - READING DATA
+================================================================================
+
+⏳ Waiting for servers to warm up IMU...
+   5s remaining...   4s remaining...   3s remaining...   2s remaining...   1s remaining...   ✅ Servers ready!                    
+
+--------------------------------------------------------------------------------
+⏰ 15:59:44 [Iteration 1]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9967', '-0.0297', '-0.0176', '0.0729']
+  ✓ RIGHT raw: ['0.9991', '-0.0368', '0.0173', '-0.0103']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.54°  Pitch=  -1.77°  Yaw=  +8.42°
+     RIGHT: Roll=  -4.24°  Pitch=  +1.94°  Yaw=  -1.26°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9967 x=+0.0176 y=-0.0297 z=+0.0729
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9991 x=-0.0173 y=-0.0368 z=-0.0103
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.77°  Pitch=  -3.54°  Yaw=  -0.00°
+  RIGHT:  Roll=  -1.94°  Pitch=  -4.24°  Yaw=  +0.00°
+  FUSION: Roll=  -0.09°  Pitch=  -3.89°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9994  x=+0.0154  y=-0.0309  z=+0.0005
+  RIGHT:  w=+0.9992  x=-0.0169  y=-0.0370  z=-0.0006
+  FUSION: w=+0.9994  x=-0.0007  y=-0.0339  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:45 [Iteration 2]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9964', '-0.0287', '-0.0127', '0.0791']
+  ✓ RIGHT raw: ['0.9992', '-0.0359', '0.0174', '-0.0099']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.39°  Pitch=  -1.19°  Yaw=  +9.11°
+     RIGHT: Roll=  -4.13°  Pitch=  +1.95°  Yaw=  -1.21°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9964 x=+0.0127 y=-0.0287 z=+0.0791
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9992 x=-0.0174 y=-0.0359 z=-0.0099
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.19°  Pitch=  -3.39°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.96°  Pitch=  -4.13°  Yaw=  +0.00°
+  FUSION: Roll=  -0.39°  Pitch=  -3.76°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0104  y=-0.0296  z=+0.0003
+  RIGHT:  w=+0.9992  x=-0.0171  y=-0.0360  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0034  y=-0.0328  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 15:59:46 [Iteration 3]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9963', '-0.0299', '-0.0136', '0.0788']
+  ✓ RIGHT raw: ['0.9991', '-0.0372', '0.0166', '-0.0153']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.54°  Pitch=  -1.28°  Yaw=  +9.09°
+     RIGHT: Roll=  -4.30°  Pitch=  +1.84°  Yaw=  -1.82°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9963 x=+0.0136 y=-0.0299 z=+0.0788
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9991 x=-0.0166 y=-0.0372 z=-0.0153
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.28°  Pitch=  -3.54°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.84°  Pitch=  -4.29°  Yaw=  +0.00°
+  FUSION: Roll=  -0.28°  Pitch=  -3.92°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0112  y=-0.0309  z=+0.0003
+  RIGHT:  w=+0.9992  x=-0.0160  y=-0.0375  z=-0.0006
+  FUSION: w=+0.9994  x=-0.0024  y=-0.0342  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:47 [Iteration 4]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9970', '-0.0280', '-0.0161', '0.0706']
+  ✓ RIGHT raw: ['0.9990', '-0.0360', '0.0166', '-0.0190']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.33°  Pitch=  -1.61°  Yaw=  +8.15°
+     RIGHT: Roll=  -4.17°  Pitch=  +1.82°  Yaw=  -2.24°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9970 x=+0.0161 y=-0.0280 z=+0.0706
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9990 x=-0.0166 y=-0.0360 z=-0.0190
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.62°  Pitch=  -3.33°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.83°  Pitch=  -4.17°  Yaw=  +0.00°
+  FUSION: Roll=  -0.10°  Pitch=  -3.75°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0141  y=-0.0291  z=+0.0004
+  RIGHT:  w=+0.9992  x=-0.0159  y=-0.0363  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0009  y=-0.0327  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:48 [Iteration 5]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9961', '-0.0249', '-0.0159', '0.0836']
+  ✓ RIGHT raw: ['0.9990', '-0.0356', '0.0169', '-0.0197']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.00°  Pitch=  -1.58°  Yaw=  +9.64°
+     RIGHT: Roll=  -4.12°  Pitch=  +1.85°  Yaw=  -2.33°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9961 x=+0.0159 y=-0.0249 z=+0.0836
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9990 x=-0.0169 y=-0.0356 z=-0.0197
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.58°  Pitch=  -2.99°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.86°  Pitch=  -4.12°  Yaw=  +0.00°
+  FUSION: Roll=  -0.14°  Pitch=  -3.56°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9996  x=+0.0138  y=-0.0261  z=+0.0004
+  RIGHT:  w=+0.9992  x=-0.0162  y=-0.0359  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0012  y=-0.0310  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:49 [Iteration 6]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9954', '-0.0248', '-0.0145', '0.0919']
+  ✓ RIGHT raw: ['0.9990', '-0.0360', '0.0181', '-0.0175']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -2.98°  Pitch=  -1.39°  Yaw= +10.59°
+     RIGHT: Roll=  -4.16°  Pitch=  +2.00°  Yaw=  -2.08°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9954 x=+0.0145 y=-0.0248 z=+0.0919
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9990 x=-0.0181 y=-0.0360 z=-0.0175
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.39°  Pitch=  -2.98°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.01°  Pitch=  -4.16°  Yaw=  +0.00°
+  FUSION: Roll=  -0.30°  Pitch=  -3.57°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9996  x=+0.0122  y=-0.0260  z=+0.0003
+  RIGHT:  w=+0.9992  x=-0.0175  y=-0.0363  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0027  y=-0.0312  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 15:59:51 [Iteration 7]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9947', '-0.0259', '-0.0156', '0.0981']
+  ✓ RIGHT raw: ['0.9991', '-0.0326', '0.0166', '-0.0206']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.13°  Pitch=  -1.48°  Yaw= +11.30°
+     RIGHT: Roll=  -3.78°  Pitch=  +1.82°  Yaw=  -2.42°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9947 x=+0.0156 y=-0.0259 z=+0.0981
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9991 x=-0.0166 y=-0.0326 z=-0.0206
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.49°  Pitch=  -3.13°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.83°  Pitch=  -3.78°  Yaw=  +0.00°
+  FUSION: Roll=  -0.17°  Pitch=  -3.45°  Yaw=  -0.00°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0130  y=-0.0273  z=+0.0004
+  RIGHT:  w=+0.9993  x=-0.0159  y=-0.0330  z=-0.0005
+  FUSION: w=+0.9995  x=-0.0015  y=-0.0301  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:52 [Iteration 8]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9946', '-0.0251', '-0.0161', '0.0998']
+  ✓ RIGHT raw: ['0.9992', '-0.0329', '0.0152', '-0.0182']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.05°  Pitch=  -1.55°  Yaw= +11.50°
+     RIGHT: Roll=  -3.81°  Pitch=  +1.67°  Yaw=  -2.14°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9946 x=+0.0161 y=-0.0251 z=+0.0998
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9992 x=-0.0152 y=-0.0329 z=-0.0182
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.55°  Pitch=  -3.05°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.68°  Pitch=  -3.81°  Yaw=  +0.00°
+  FUSION: Roll=  -0.06°  Pitch=  -3.43°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9996  x=+0.0136  y=-0.0266  z=+0.0004
+  RIGHT:  w=+0.9993  x=-0.0146  y=-0.0332  z=-0.0005
+  FUSION: w=+0.9996  x=-0.0005  y=-0.0299  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:53 [Iteration 9]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9938', '-0.0255', '-0.0147', '0.1070']
+  ✓ RIGHT raw: ['0.9991', '-0.0347', '0.0163', '-0.0175']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.09°  Pitch=  -1.36°  Yaw= +12.33°
+     RIGHT: Roll=  -4.02°  Pitch=  +1.80°  Yaw=  -2.07°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9938 x=+0.0147 y=-0.0255 z=+0.1070
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9991 x=-0.0163 y=-0.0347 z=-0.0175
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.36°  Pitch=  -3.08°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.80°  Pitch=  -4.01°  Yaw=  +0.00°
+  FUSION: Roll=  -0.22°  Pitch=  -3.55°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9996  x=+0.0119  y=-0.0269  z=+0.0003
+  RIGHT:  w=+0.9993  x=-0.0157  y=-0.0350  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0019  y=-0.0310  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:54 [Iteration 10]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9936', '-0.0236', '-0.0153', '0.1094']
+  ✓ RIGHT raw: ['0.9991', '-0.0360', '0.0183', '-0.0152']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -2.88°  Pitch=  -1.44°  Yaw= +12.60°
+     RIGHT: Roll=  -4.16°  Pitch=  +2.04°  Yaw=  -1.82°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9936 x=+0.0153 y=-0.0236 z=+0.1094
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9991 x=-0.0183 y=-0.0360 z=-0.0152
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.44°  Pitch=  -2.88°  Yaw=  -0.00°
+  RIGHT:  Roll=  -2.04°  Pitch=  -4.16°  Yaw=  +0.00°
+  FUSION: Roll=  -0.30°  Pitch=  -3.52°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9996  x=+0.0126  y=-0.0251  z=+0.0003
+  RIGHT:  w=+0.9992  x=-0.0178  y=-0.0363  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0026  y=-0.0307  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 15:59:55 [Iteration 11]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9935', '-0.0259', '-0.0178', '0.1092']
+  ✓ RIGHT raw: ['0.9991', '-0.0346', '0.0188', '-0.0159']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.18°  Pitch=  -1.71°  Yaw= +12.59°
+     RIGHT: Roll=  -4.00°  Pitch=  +2.09°  Yaw=  -1.89°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9935 x=+0.0178 y=-0.0259 z=+0.1092
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9991 x=-0.0188 y=-0.0346 z=-0.0159
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.71°  Pitch=  -3.18°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.09°  Pitch=  -3.99°  Yaw=  +0.00°
+  FUSION: Roll=  -0.19°  Pitch=  -3.59°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0149  y=-0.0277  z=+0.0004
+  RIGHT:  w=+0.9992  x=-0.0182  y=-0.0348  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0017  y=-0.0313  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:56 [Iteration 12]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9935', '-0.0249', '-0.0196', '0.1093']
+  ✓ RIGHT raw: ['0.9992', '-0.0318', '0.0168', '-0.0165']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.09°  Pitch=  -1.92°  Yaw= +12.61°
+     RIGHT: Roll=  -3.68°  Pitch=  +1.86°  Yaw=  -1.95°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9935 x=+0.0196 y=-0.0249 z=+0.1093
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9992 x=-0.0168 y=-0.0318 z=-0.0165
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.93°  Pitch=  -3.09°  Yaw=  -0.00°
+  RIGHT:  Roll=  -1.87°  Pitch=  -3.68°  Yaw=  +0.00°
+  FUSION: Roll=  +0.03°  Pitch=  -3.38°  Yaw=  -0.00°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0168  y=-0.0269  z=+0.0005
+  RIGHT:  w=+0.9994  x=-0.0163  y=-0.0321  z=-0.0005
+  FUSION: w=+0.9996  x=+0.0003  y=-0.0295  z=-0.0000
+
+--------------------------------------------------------------------------------
+⏰ 15:59:57 [Iteration 13]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9929', '-0.0262', '-0.0157', '0.1146']
+  ✓ RIGHT raw: ['0.9990', '-0.0367', '0.0183', '-0.0179']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.19°  Pitch=  -1.44°  Yaw= +13.21°
+     RIGHT: Roll=  -4.24°  Pitch=  +2.02°  Yaw=  -2.12°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9929 x=+0.0157 y=-0.0262 z=+0.1146
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9990 x=-0.0183 y=-0.0367 z=-0.0179
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.45°  Pitch=  -3.19°  Yaw=  -0.00°
+  RIGHT:  Roll=  -2.02°  Pitch=  -4.24°  Yaw=  +0.00°
+  FUSION: Roll=  -0.29°  Pitch=  -3.71°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0126  y=-0.0278  z=+0.0004
+  RIGHT:  w=+0.9992  x=-0.0176  y=-0.0370  z=-0.0007
+  FUSION: w=+0.9995  x=-0.0025  y=-0.0324  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 15:59:58 [Iteration 14]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9938', '-0.0082', '-0.0101', '0.1107']
+  ✓ RIGHT raw: ['0.9996', '-0.0114', '0.0184', '-0.0202']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -1.06°  Pitch=  -1.05°  Yaw= +12.72°
+     RIGHT: Roll=  -1.35°  Pitch=  +2.08°  Yaw=  -2.34°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9938 x=+0.0101 y=-0.0082 z=+0.1107
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9996 x=-0.0184 y=-0.0114 z=-0.0202
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.05°  Pitch=  -1.06°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.08°  Pitch=  -1.35°  Yaw=  +0.00°
+  FUSION: Roll=  -0.52°  Pitch=  -1.20°  Yaw=  -0.00°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0091  y=-0.0092  z=+0.0001
+  RIGHT:  w=+0.9998  x=-0.0181  y=-0.0118  z=-0.0002
+  FUSION: w=+0.9999  x=-0.0045  y=-0.0105  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 15:59:59 [Iteration 15]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9863', '-0.1013', '-0.0370', '0.1246']
+  ✓ RIGHT raw: ['0.9925', '-0.1192', '0.0136', '-0.0223']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll= -12.08°  Pitch=  -2.74°  Yaw= +14.69°
+     RIGHT: Roll= -13.72°  Pitch=  +1.24°  Yaw=  -2.72°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9863 x=+0.0370 y=-0.1013 z=+0.1246
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9925 x=-0.0136 y=-0.1192 z=-0.0223
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +2.80°  Pitch= -12.07°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.27°  Pitch= -13.72°  Yaw=  +0.00°
+  FUSION: Roll=  +0.77°  Pitch= -12.89°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9942  x=+0.0243  y=-0.1051  z=+0.0026
+  RIGHT:  w=+0.9928  x=-0.0110  y=-0.1194  z=-0.0013
+  FUSION: w=+0.9937  x=+0.0066  y=-0.1123  z=+0.0006
+
+--------------------------------------------------------------------------------
+⏰ 16:00:00 [Iteration 16]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9863', '-0.1125', '-0.0299', '0.1166']
+  ✓ RIGHT raw: ['0.9874', '-0.1565', '0.0099', '-0.0220']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll= -13.23°  Pitch=  -1.88°  Yaw= +13.70°
+     RIGHT: Roll= -18.03°  Pitch=  +0.73°  Yaw=  -2.67°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9863 x=+0.0299 y=-0.1125 z=+0.1166
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9874 x=-0.0099 y=-0.1565 z=-0.0220
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.93°  Pitch= -13.23°  Yaw=  +0.00°
+  RIGHT:  Roll=  -0.77°  Pitch= -18.03°  Yaw=  +0.00°
+  FUSION: Roll=  +0.59°  Pitch= -15.63°  Yaw=  -0.03°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9932  x=+0.0168  y=-0.1152  z=+0.0019
+  RIGHT:  w=+0.9876  x=-0.0066  y=-0.1567  z=-0.0010
+  FUSION: w=+0.9907  x=+0.0051  y=-0.1360  z=+0.0004
+
+--------------------------------------------------------------------------------
+⏰ 16:00:02 [Iteration 17]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9879', '-0.0812', '-0.0196', '0.1304']
+  ✓ RIGHT raw: ['0.9946', '-0.1007', '0.0204', '-0.0144']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -9.53°  Pitch=  -1.00°  Yaw= +15.12°
+     RIGHT: Roll= -11.59°  Pitch=  +2.16°  Yaw=  -1.88°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9879 x=+0.0196 y=-0.0812 z=+0.1304
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9946 x=-0.0204 y=-0.1007 z=-0.0144
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.02°  Pitch=  -9.53°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.21°  Pitch= -11.59°  Yaw=  -0.00°
+  FUSION: Roll=  -0.59°  Pitch= -10.56°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9965  x=+0.0088  y=-0.0830  z=+0.0007
+  RIGHT:  w=+0.9947  x=-0.0192  y=-0.1009  z=-0.0019
+  FUSION: w=+0.9957  x=-0.0052  y=-0.0920  z=-0.0006
+
+--------------------------------------------------------------------------------
+⏰ 16:00:03 [Iteration 18]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9905', '-0.0099', '-0.0121', '0.1366']
+  ✓ RIGHT raw: ['0.9994', '-0.0295', '0.0149', '-0.0125']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -1.32°  Pitch=  -1.22°  Yaw= +15.72°
+     RIGHT: Roll=  -3.41°  Pitch=  +1.66°  Yaw=  -1.48°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9905 x=+0.0121 y=-0.0099 z=+0.1366
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9994 x=-0.0149 y=-0.0295 z=-0.0125
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.22°  Pitch=  -1.32°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.66°  Pitch=  -3.40°  Yaw=  +0.00°
+  FUSION: Roll=  -0.22°  Pitch=  -2.36°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0107  y=-0.0115  z=+0.0001
+  RIGHT:  w=+0.9995  x=-0.0145  y=-0.0297  z=-0.0004
+  FUSION: w=+0.9998  x=-0.0019  y=-0.0206  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 16:00:04 [Iteration 19]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9908', '0.0013', '-0.0095', '0.1349']
+  ✓ RIGHT raw: ['0.9996', '-0.0147', '0.0205', '-0.0129']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -0.00°  Pitch=  -1.10°  Yaw= +15.51°
+     RIGHT: Roll=  -1.71°  Pitch=  +2.33°  Yaw=  -1.51°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9908 x=+0.0095 y=+0.0013 z=+0.1349
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9996 x=-0.0205 y=-0.0147 z=-0.0129
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.10°  Pitch=  -0.00°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.33°  Pitch=  -1.71°  Yaw=  -0.00°
+  FUSION: Roll=  -0.62°  Pitch=  -0.86°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+1.0000  x=+0.0096  y=-0.0000  z=+0.0000
+  RIGHT:  w=+0.9997  x=-0.0204  y=-0.0149  z=-0.0003
+  FUSION: w=+1.0000  x=-0.0054  y=-0.0075  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 16:00:05 [Iteration 20]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9907', '-0.0405', '-0.0160', '0.1286']
+  ✓ RIGHT raw: ['0.9983', '-0.0511', '0.0233', '-0.0160']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -4.84°  Pitch=  -1.22°  Yaw= +14.84°
+     RIGHT: Roll=  -5.90°  Pitch=  +2.58°  Yaw=  -1.96°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9907 x=+0.0160 y=-0.0405 z=+0.1286
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9983 x=-0.0233 y=-0.0511 z=-0.0160
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.22°  Pitch=  -4.84°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.59°  Pitch=  -5.90°  Yaw=  -0.00°
+  FUSION: Roll=  -0.68°  Pitch=  -5.37°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9991  x=+0.0107  y=-0.0422  z=+0.0005
+  RIGHT:  w=+0.9984  x=-0.0226  y=-0.0514  z=-0.0012
+  FUSION: w=+0.9989  x=-0.0060  y=-0.0468  z=-0.0004
+
+--------------------------------------------------------------------------------
+⏰ 16:00:06 [Iteration 21]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9889', '-0.0582', '-0.0218', '0.1348']
+  ✓ RIGHT raw: ['0.9966', '-0.0785', '0.0182', '-0.0178']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -6.95°  Pitch=  -1.57°  Yaw= +15.62°
+     RIGHT: Roll=  -9.04°  Pitch=  +1.92°  Yaw=  -2.19°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9889 x=+0.0218 y=-0.0582 z=+0.1348
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9966 x=-0.0182 y=-0.0785 z=-0.0178
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.58°  Pitch=  -6.95°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.94°  Pitch=  -9.03°  Yaw=  -0.00°
+  FUSION: Roll=  -0.18°  Pitch=  -7.99°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9981  x=+0.0137  y=-0.0606  z=+0.0008
+  RIGHT:  w=+0.9968  x=-0.0169  y=-0.0787  z=-0.0013
+  FUSION: w=+0.9976  x=-0.0016  y=-0.0697  z=-0.0003
+
+--------------------------------------------------------------------------------
+⏰ 16:00:07 [Iteration 22]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9877', '-0.0764', '-0.0242', '0.1343']
+  ✓ RIGHT raw: ['0.9955', '-0.0906', '0.0181', '-0.0188']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -9.06°  Pitch=  -1.56°  Yaw= +15.61°
+     RIGHT: Roll= -10.44°  Pitch=  +1.87°  Yaw=  -2.33°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9877 x=+0.0242 y=-0.0764 z=+0.1343
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9955 x=-0.0181 y=-0.0906 z=-0.0188
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.58°  Pitch=  -9.05°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.91°  Pitch= -10.43°  Yaw=  +0.00°
+  FUSION: Roll=  -0.16°  Pitch=  -9.74°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9968  x=+0.0138  y=-0.0789  z=+0.0011
+  RIGHT:  w=+0.9957  x=-0.0166  y=-0.0909  z=-0.0015
+  FUSION: w=+0.9964  x=-0.0014  y=-0.0849  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 16:00:08 [Iteration 23]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9911', '-0.0239', '-0.0199', '0.1297']
+  ✓ RIGHT raw: ['0.9990', '-0.0394', '0.0166', '-0.0147']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.02°  Pitch=  -1.91°  Yaw= +14.96°
+     RIGHT: Roll=  -4.55°  Pitch=  +1.84°  Yaw=  -1.76°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9911 x=+0.0199 y=-0.0239 z=+0.1297
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9990 x=-0.0166 y=-0.0394 z=-0.0147
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.91°  Pitch=  -3.02°  Yaw=  -0.00°
+  RIGHT:  Roll=  -1.84°  Pitch=  -4.55°  Yaw=  +0.00°
+  FUSION: Roll=  +0.04°  Pitch=  -3.78°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0167  y=-0.0263  z=+0.0004
+  RIGHT:  w=+0.9991  x=-0.0161  y=-0.0397  z=-0.0006
+  FUSION: w=+0.9995  x=+0.0003  y=-0.0330  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:09 [Iteration 24]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9909', '-0.0037', '-0.0125', '0.1343']
+  ✓ RIGHT raw: ['0.9997', '-0.0182', '0.0159', '-0.0101']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -0.61°  Pitch=  -1.36°  Yaw= +15.45°
+     RIGHT: Roll=  -2.10°  Pitch=  +1.80°  Yaw=  -1.19°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9909 x=+0.0125 y=-0.0037 z=+0.1343
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9997 x=-0.0159 y=-0.0182 z=-0.0101
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.36°  Pitch=  -0.61°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.80°  Pitch=  -2.10°  Yaw=  +0.00°
+  FUSION: Roll=  -0.22°  Pitch=  -1.36°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0119  y=-0.0054  z=+0.0001
+  RIGHT:  w=+0.9997  x=-0.0157  y=-0.0183  z=-0.0003
+  FUSION: w=+0.9999  x=-0.0019  y=-0.0118  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:11 [Iteration 25]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9890', '0.0490', '-0.0041', '0.1398']
+  ✓ RIGHT raw: ['0.9992', '0.0306', '0.0213', '-0.0119']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  +5.50°  Pitch=  -1.25°  Yaw= +16.03°
+     RIGHT: Roll=  +3.48°  Pitch=  +2.48°  Yaw=  -1.29°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9890 x=+0.0041 y=+0.0490 z=+0.1398
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9992 x=-0.0213 y=+0.0306 z=-0.0119
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.26°  Pitch=  +5.50°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.49°  Pitch=  +3.48°  Yaw=  -0.00°
+  FUSION: Roll=  -0.62°  Pitch=  +4.49°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9988  x=+0.0109  y=+0.0479  z=-0.0005
+  RIGHT:  w=+0.9993  x=-0.0217  y=+0.0303  z=+0.0007
+  FUSION: w=+0.9992  x=-0.0054  y=+0.0391  z=+0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:12 [Iteration 26]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9890', '0.0489', '-0.0042', '0.1392']
+  ✓ RIGHT raw: ['0.9992', '0.0335', '0.0191', '-0.0118']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  +5.49°  Pitch=  -1.26°  Yaw= +15.96°
+     RIGHT: Roll=  +3.81°  Pitch=  +2.24°  Yaw=  -1.28°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9890 x=+0.0042 y=+0.0489 z=+0.1392
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9992 x=-0.0191 y=+0.0335 z=-0.0118
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.27°  Pitch=  +5.49°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.24°  Pitch=  +3.81°  Yaw=  -0.00°
+  FUSION: Roll=  -0.49°  Pitch=  +4.65°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9988  x=+0.0110  y=+0.0479  z=-0.0005
+  RIGHT:  w=+0.9993  x=-0.0196  y=+0.0332  z=+0.0007
+  FUSION: w=+0.9992  x=-0.0043  y=+0.0406  z=+0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:13 [Iteration 27]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9877', '0.0416', '-0.0022', '0.1504']
+  ✓ RIGHT raw: ['0.9994', '0.0269', '0.0178', '-0.0136']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  +4.68°  Pitch=  -0.96°  Yaw= +17.28°
+     RIGHT: Roll=  +3.05°  Pitch=  +2.08°  Yaw=  -1.50°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9877 x=+0.0022 y=+0.0416 z=+0.1504
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9994 x=-0.0178 y=+0.0269 z=-0.0136
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +0.97°  Pitch=  +4.67°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.09°  Pitch=  +3.05°  Yaw=  +0.00°
+  FUSION: Roll=  -0.56°  Pitch=  +3.86°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9991  x=+0.0084  y=+0.0408  z=-0.0003
+  RIGHT:  w=+0.9995  x=-0.0182  y=+0.0266  z=+0.0005
+  FUSION: w=+0.9994  x=-0.0049  y=+0.0337  z=+0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:14 [Iteration 28]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9863', '0.0308', '-0.0065', '0.1617']
+  ✓ RIGHT raw: ['0.9995', '0.0144', '0.0171', '-0.0240']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  +3.36°  Pitch=  -1.31°  Yaw= +18.58°
+     RIGHT: Roll=  +1.61°  Pitch=  +2.00°  Yaw=  -2.72°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9863 x=+0.0065 y=+0.0308 z=+0.1617
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9995 x=-0.0171 y=+0.0144 z=-0.0240
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.31°  Pitch=  +3.36°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.00°  Pitch=  +1.60°  Yaw=  +0.00°
+  FUSION: Roll=  -0.35°  Pitch=  +2.48°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0114  y=+0.0293  z=-0.0003
+  RIGHT:  w=+0.9997  x=-0.0175  y=+0.0140  z=+0.0002
+  FUSION: w=+0.9998  x=-0.0030  y=+0.0217  z=-0.0000
+
+--------------------------------------------------------------------------------
+⏰ 16:00:15 [Iteration 29]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9861', '0.0139', '-0.0076', '0.1652']
+  ✓ RIGHT raw: ['0.9996', '-0.0064', '0.0187', '-0.0218']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  +1.43°  Pitch=  -1.13°  Yaw= +19.00°
+     RIGHT: Roll=  -0.78°  Pitch=  +2.12°  Yaw=  -2.51°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9861 x=+0.0076 y=+0.0139 z=+0.1652
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9996 x=-0.0187 y=-0.0064 z=-0.0218
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.13°  Pitch=  +1.43°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.12°  Pitch=  -0.78°  Yaw=  +0.00°
+  FUSION: Roll=  -0.50°  Pitch=  +0.33°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0098  y=+0.0125  z=-0.0001
+  RIGHT:  w=+0.9998  x=-0.0185  y=-0.0068  z=-0.0001
+  FUSION: w=+1.0000  x=-0.0043  y=+0.0028  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:16 [Iteration 30]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9871', '0.0313', '-0.0027', '0.1568']
+  ✓ RIGHT raw: ['0.9994', '0.0230', '0.0201', '-0.0175']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  +3.50°  Pitch=  -0.87°  Yaw= +18.03°
+     RIGHT: Roll=  +2.60°  Pitch=  +2.35°  Yaw=  -1.95°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9871 x=+0.0027 y=+0.0313 z=+0.1568
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9994 x=-0.0201 y=+0.0230 z=-0.0175
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +0.87°  Pitch=  +3.50°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.35°  Pitch=  +2.59°  Yaw=  +0.00°
+  FUSION: Roll=  -0.74°  Pitch=  +3.05°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0076  y=+0.0305  z=-0.0002
+  RIGHT:  w=+0.9995  x=-0.0205  y=+0.0226  z=+0.0005
+  FUSION: w=+0.9996  x=-0.0065  y=+0.0266  z=+0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:17 [Iteration 31]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9863', '-0.0294', '-0.0181', '0.1616']
+  ✓ RIGHT raw: ['0.9989', '-0.0380', '0.0175', '-0.0199']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.66°  Pitch=  -1.50°  Yaw= +18.65°
+     RIGHT: Roll=  -4.40°  Pitch=  +1.92°  Yaw=  -2.35°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9863 x=+0.0181 y=-0.0294 z=+0.1616
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9989 x=-0.0175 y=-0.0380 z=-0.0199
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.50°  Pitch=  -3.66°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.92°  Pitch=  -4.40°  Yaw=  +0.00°
+  FUSION: Roll=  -0.21°  Pitch=  -4.03°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9994  x=+0.0131  y=-0.0319  z=+0.0004
+  RIGHT:  w=+0.9991  x=-0.0168  y=-0.0383  z=-0.0006
+  FUSION: w=+0.9994  x=-0.0018  y=-0.0351  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:19 [Iteration 32]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9834', '-0.0346', '-0.0210', '0.1770']
+  ✓ RIGHT raw: ['0.9985', '-0.0456', '0.0171', '-0.0245']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -4.33°  Pitch=  -1.67°  Yaw= +20.47°
+     RIGHT: Roll=  -5.28°  Pitch=  +1.83°  Yaw=  -2.89°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9834 x=+0.0210 y=-0.0346 z=+0.1770
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9985 x=-0.0171 y=-0.0456 z=-0.0245
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.67°  Pitch=  -4.33°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.84°  Pitch=  -5.28°  Yaw=  +0.00°
+  FUSION: Roll=  -0.08°  Pitch=  -4.80°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9992  x=+0.0146  y=-0.0377  z=+0.0006
+  RIGHT:  w=+0.9988  x=-0.0161  y=-0.0460  z=-0.0007
+  FUSION: w=+0.9991  x=-0.0007  y=-0.0419  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:20 [Iteration 33]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9813', '-0.0305', '-0.0203', '0.1892']
+  ✓ RIGHT raw: ['0.9978', '-0.0604', '0.0170', '-0.0221']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.88°  Pitch=  -1.63°  Yaw= +21.88°
+     RIGHT: Roll=  -6.97°  Pitch=  +1.79°  Yaw=  -2.64°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9813 x=+0.0203 y=-0.0305 z=+0.1892
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9978 x=-0.0170 y=-0.0604 z=-0.0221
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.63°  Pitch=  -3.88°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.80°  Pitch=  -6.97°  Yaw=  +0.00°
+  FUSION: Roll=  -0.08°  Pitch=  -5.42°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9993  x=+0.0142  y=-0.0338  z=+0.0005
+  RIGHT:  w=+0.9980  x=-0.0157  y=-0.0608  z=-0.0010
+  FUSION: w=+0.9989  x=-0.0007  y=-0.0473  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 16:00:21 [Iteration 34]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9766', '-0.0519', '-0.0268', '0.2070']
+  ✓ RIGHT raw: ['0.9970', '-0.0736', '0.0158', '-0.0193']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -6.46°  Pitch=  -1.77°  Yaw= +24.03°
+     RIGHT: Roll=  -8.47°  Pitch=  +1.65°  Yaw=  -2.34°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9766 x=+0.0268 y=-0.0519 z=+0.2070
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9970 x=-0.0158 y=-0.0736 z=-0.0193
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.78°  Pitch=  -6.45°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.66°  Pitch=  -8.47°  Yaw=  +0.00°
+  FUSION: Roll=  +0.06°  Pitch=  -7.46°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9983  x=+0.0155  y=-0.0563  z=+0.0009
+  RIGHT:  w=+0.9972  x=-0.0145  y=-0.0738  z=-0.0011
+  FUSION: w=+0.9979  x=+0.0005  y=-0.0651  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:23 [Iteration 35]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9811', '-0.0260', '-0.0172', '0.1911']
+  ✓ RIGHT raw: ['0.9991', '-0.0336', '0.0160', '-0.0190']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.30°  Pitch=  -1.36°  Yaw= +22.08°
+     RIGHT: Roll=  -3.89°  Pitch=  +1.76°  Yaw=  -2.24°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9811 x=+0.0172 y=-0.0260 z=+0.1911
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9991 x=-0.0160 y=-0.0336 z=-0.0190
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.36°  Pitch=  -3.30°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.76°  Pitch=  -3.89°  Yaw=  +0.00°
+  FUSION: Roll=  -0.20°  Pitch=  -3.59°  Yaw=  -0.00°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0119  y=-0.0288  z=+0.0003
+  RIGHT:  w=+0.9993  x=-0.0154  y=-0.0339  z=-0.0005
+  FUSION: w=+0.9995  x=-0.0017  y=-0.0314  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:24 [Iteration 36]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9804', '-0.0017', '-0.0153', '0.1964']
+  ✓ RIGHT raw: ['0.9994', '-0.0240', '0.0172', '-0.0170']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -0.54°  Pitch=  -1.68°  Yaw= +22.66°
+     RIGHT: Roll=  -2.79°  Pitch=  +1.93°  Yaw=  -1.99°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9804 x=+0.0153 y=-0.0017 z=+0.1964
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9994 x=-0.0172 y=-0.0240 z=-0.0170
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.68°  Pitch=  -0.54°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.93°  Pitch=  -2.78°  Yaw=  +0.00°
+  FUSION: Roll=  -0.13°  Pitch=  -1.66°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0147  y=-0.0047  z=+0.0001
+  RIGHT:  w=+0.9996  x=-0.0168  y=-0.0243  z=-0.0004
+  FUSION: w=+0.9999  x=-0.0011  y=-0.0145  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 16:00:25 [Iteration 37]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9790', '-0.0248', '-0.0177', '0.2017']
+  ✓ RIGHT raw: ['0.9990', '-0.0380', '0.0165', '-0.0151']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.20°  Pitch=  -1.42°  Yaw= +23.32°
+     RIGHT: Roll=  -4.38°  Pitch=  +1.83°  Yaw=  -1.80°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9790 x=+0.0177 y=-0.0248 z=+0.2017
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9990 x=-0.0165 y=-0.0380 z=-0.0151
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.42°  Pitch=  -3.20°  Yaw=  -0.00°
+  RIGHT:  Roll=  -1.83°  Pitch=  -4.38°  Yaw=  +0.00°
+  FUSION: Roll=  -0.21°  Pitch=  -3.79°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9995  x=+0.0124  y=-0.0279  z=+0.0003
+  RIGHT:  w=+0.9991  x=-0.0160  y=-0.0382  z=-0.0006
+  FUSION: w=+0.9995  x=-0.0018  y=-0.0331  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:26 [Iteration 38]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9804', '-0.0392', '-0.0224', '0.1919']
+  ✓ RIGHT raw: ['0.9987', '-0.0445', '0.0162', '-0.0165']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -4.90°  Pitch=  -1.65°  Yaw= +22.22°
+     RIGHT: Roll=  -5.13°  Pitch=  +1.77°  Yaw=  -1.98°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9804 x=+0.0224 y=-0.0392 z=+0.1919
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9987 x=-0.0162 y=-0.0445 z=-0.0165
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.66°  Pitch=  -4.90°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.78°  Pitch=  -5.13°  Yaw=  -0.00°
+  FUSION: Roll=  -0.06°  Pitch=  -5.01°  Yaw=  -0.00°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9990  x=+0.0144  y=-0.0427  z=+0.0006
+  RIGHT:  w=+0.9989  x=-0.0155  y=-0.0447  z=-0.0007
+  FUSION: w=+0.9990  x=-0.0005  y=-0.0437  z=-0.0000
+
+--------------------------------------------------------------------------------
+⏰ 16:00:27 [Iteration 39]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9796', '-0.0405', '-0.0232', '0.1955']
+  ✓ RIGHT raw: ['0.9983', '-0.0557', '0.0147', '-0.0104']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -5.07°  Pitch=  -1.70°  Yaw= +22.65°
+     RIGHT: Roll=  -6.41°  Pitch=  +1.61°  Yaw=  -1.29°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9796 x=+0.0232 y=-0.0405 z=+0.1955
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9983 x=-0.0147 y=-0.0557 z=-0.0104
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.71°  Pitch=  -5.07°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.62°  Pitch=  -6.41°  Yaw=  +0.00°
+  FUSION: Roll=  +0.04°  Pitch=  -5.74°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9989  x=+0.0149  y=-0.0442  z=+0.0007
+  RIGHT:  w=+0.9983  x=-0.0141  y=-0.0559  z=-0.0008
+  FUSION: w=+0.9987  x=+0.0004  y=-0.0500  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:28 [Iteration 40]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9799', '-0.0035', '-0.0132', '0.1991']
+  ✓ RIGHT raw: ['0.9988', '-0.0448', '0.0168', '-0.0072']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -0.69°  Pitch=  -1.40°  Yaw= +22.98°
+     RIGHT: Roll=  -5.15°  Pitch=  +1.89°  Yaw=  -0.91°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9799 x=+0.0132 y=-0.0035 z=+0.1991
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9988 x=-0.0168 y=-0.0448 z=-0.0072
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.40°  Pitch=  -0.69°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.90°  Pitch=  -5.15°  Yaw=  -0.00°
+  FUSION: Roll=  -0.25°  Pitch=  -2.92°  Yaw=  -0.03°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0122  y=-0.0060  z=+0.0001
+  RIGHT:  w=+0.9989  x=-0.0165  y=-0.0449  z=-0.0007
+  FUSION: w=+0.9997  x=-0.0021  y=-0.0255  z=-0.0003
+
+--------------------------------------------------------------------------------
+⏰ 16:00:29 [Iteration 41]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9818', '-0.0041', '-0.0114', '0.1895']
+  ✓ RIGHT raw: ['0.9997', '-0.0147', '0.0188', '-0.0059']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -0.71°  Pitch=  -1.19°  Yaw= +21.86°
+     RIGHT: Roll=  -1.70°  Pitch=  +2.14°  Yaw=  -0.71°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9818 x=+0.0114 y=-0.0041 z=+0.1895
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9997 x=-0.0188 y=-0.0147 z=-0.0059
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.19°  Pitch=  -0.71°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.14°  Pitch=  -1.70°  Yaw=  +0.00°
+  FUSION: Roll=  -0.47°  Pitch=  -1.21°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0104  y=-0.0062  z=+0.0001
+  RIGHT:  w=+0.9997  x=-0.0187  y=-0.0148  z=-0.0003
+  FUSION: w=+0.9999  x=-0.0041  y=-0.0105  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:30 [Iteration 42]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9837', '-0.0133', '-0.0119', '0.1790']
+  ✓ RIGHT raw: ['0.9993', '-0.0314', '0.0174', '-0.0092']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -1.74°  Pitch=  -1.07°  Yaw= +20.64°
+     RIGHT: Roll=  -3.62°  Pitch=  +1.96°  Yaw=  -1.12°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9837 x=+0.0119 y=-0.0133 z=+0.1790
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9993 x=-0.0174 y=-0.0314 z=-0.0092
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.07°  Pitch=  -1.74°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.97°  Pitch=  -3.62°  Yaw=  +0.00°
+  FUSION: Roll=  -0.45°  Pitch=  -2.68°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9998  x=+0.0093  y=-0.0152  z=+0.0001
+  RIGHT:  w=+0.9994  x=-0.0172  y=-0.0316  z=-0.0005
+  FUSION: w=+0.9997  x=-0.0039  y=-0.0234  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 16:00:32 [Iteration 43]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9829', '-0.0237', '-0.0175', '0.1818']
+  ✓ RIGHT raw: ['0.9993', '-0.0305', '0.0176', '-0.0127']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.04°  Pitch=  -1.48°  Yaw= +20.99°
+     RIGHT: Roll=  -3.53°  Pitch=  +1.97°  Yaw=  -1.52°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9829 x=+0.0175 y=-0.0237 z=+0.1818
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9993 x=-0.0176 y=-0.0305 z=-0.0127
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.48°  Pitch=  -3.04°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.98°  Pitch=  -3.52°  Yaw=  +0.00°
+  FUSION: Roll=  -0.25°  Pitch=  -3.28°  Yaw=  -0.00°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9996  x=+0.0129  y=-0.0265  z=+0.0003
+  RIGHT:  w=+0.9994  x=-0.0172  y=-0.0307  z=-0.0005
+  FUSION: w=+0.9996  x=-0.0022  y=-0.0286  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:33 [Iteration 44]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9805', '-0.0303', '-0.0197', '0.1932']
+  ✓ RIGHT raw: ['0.9990', '-0.0392', '0.0182', '-0.0090']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -3.85°  Pitch=  -1.54°  Yaw= +22.35°
+     RIGHT: Roll=  -4.52°  Pitch=  +2.05°  Yaw=  -1.11°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9805 x=+0.0197 y=-0.0303 z=+0.1932
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9990 x=-0.0182 y=-0.0392 z=-0.0090
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.55°  Pitch=  -3.85°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.05°  Pitch=  -4.51°  Yaw=  +0.00°
+  FUSION: Roll=  -0.25°  Pitch=  -4.18°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9993  x=+0.0135  y=-0.0336  z=+0.0005
+  RIGHT:  w=+0.9991  x=-0.0179  y=-0.0394  z=-0.0007
+  FUSION: w=+0.9993  x=-0.0022  y=-0.0365  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:34 [Iteration 45]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9814', '-0.0102', '-0.0139', '0.1914']
+  ✓ RIGHT raw: ['0.9993', '-0.0323', '0.0172', '-0.0098']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -1.46°  Pitch=  -1.34°  Yaw= +22.09°
+     RIGHT: Roll=  -3.72°  Pitch=  +1.93°  Yaw=  -1.19°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9814 x=+0.0139 y=-0.0102 z=+0.1914
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9993 x=-0.0172 y=-0.0323 z=-0.0098
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.34°  Pitch=  -1.46°  Yaw=  -0.00°
+  RIGHT:  Roll=  -1.93°  Pitch=  -3.72°  Yaw=  -0.00°
+  FUSION: Roll=  -0.29°  Pitch=  -2.59°  Yaw=  -0.02°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0117  y=-0.0127  z=+0.0001
+  RIGHT:  w=+0.9993  x=-0.0169  y=-0.0325  z=-0.0005
+  FUSION: w=+0.9997  x=-0.0026  y=-0.0226  z=-0.0002
+
+--------------------------------------------------------------------------------
+⏰ 16:00:35 [Iteration 46]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9827', '0.0046', '-0.0136', '0.1848']
+  ✓ RIGHT raw: ['0.9998', '-0.0054', '0.0198', '-0.0038']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  +0.23°  Pitch=  -1.63°  Yaw= +21.29°
+     RIGHT: Roll=  -0.62°  Pitch=  +2.26°  Yaw=  -0.45°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9827 x=+0.0136 y=+0.0046 z=+0.1848
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9998 x=-0.0198 y=-0.0054 z=-0.0038
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.63°  Pitch=  +0.23°  Yaw=  +0.00°
+  RIGHT:  Roll=  -2.26°  Pitch=  -0.62°  Yaw=  +0.00°
+  FUSION: Roll=  -0.31°  Pitch=  -0.19°  Yaw=  -0.01°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0142  y=+0.0020  z=-0.0000
+  RIGHT:  w=+0.9998  x=-0.0197  y=-0.0054  z=-0.0001
+  FUSION: w=+1.0000  x=-0.0027  y=-0.0017  z=-0.0001
+
+--------------------------------------------------------------------------------
+⏰ 16:00:36 [Iteration 47]
+
+  📤 Requesting IMU data...
+  ✓ LEFT raw:  ['0.9819', '-0.0045', '-0.0128', '0.1891']
+  ✓ RIGHT raw: ['0.9980', '-0.0604', '0.0166', '-0.0122']
+
+  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):
+     LEFT:  Roll=  -0.78°  Pitch=  -1.34°  Yaw= +21.82°
+     RIGHT: Roll=  -6.95°  Pitch=  +1.81°  Yaw=  -1.52°
+
+  🔍 LEFT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9819 x=+0.0128 y=-0.0045 z=+0.1891
+
+  🔍 RIGHT TRANSFORM DEBUG:
+     [Result] q_baselink:         w=+0.9980 x=-0.0166 y=-0.0604 z=-0.0122
+
+  📊 NORM CHECK (after transform):
+     LEFT:  ||q|| = 1.000000 ✅
+     RIGHT: ||q|| = 1.000000 ✅
+
+📍 VỊ TRÍ (Baselink):
+  LEFT:   X=-0.000024  Y=-0.015000  Z=+0.085100
+  RIGHT:  X=+0.000000  Y=+0.015000  Z=+0.085100
+  FUSION: X=-0.000012  Y=+0.000000  Z=+0.085100
+
+🧭 HƯỚNG (Euler - độ):
+  LEFT:   Roll=  +1.34°  Pitch=  -0.78°  Yaw=  +0.00°
+  RIGHT:  Roll=  -1.82°  Pitch=  -6.94°  Yaw=  +0.00°
+  FUSION: Roll=  -0.24°  Pitch=  -3.86°  Yaw=  -0.04°
+
+📊 QUATERNION (Baselink):
+  LEFT:   w=+0.9999  x=+0.0117  y=-0.0068  z=+0.0001
+  RIGHT:  w=+0.9980  x=-0.0159  y=-0.0605  z=-0.0010
+  FUSION: w=+0.9994  x=-0.0021  y=-0.0337  z=-0.0004
+
+--------------------------------------------------------------------------------
+⏰ 16:00:38 [Iteration 48]
+
+  📤 Requesting IMU data...
+
+
+👋 Stopped!
