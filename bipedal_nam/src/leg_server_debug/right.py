@@ -96,7 +96,7 @@ class MCUServer:
         }
 
         # Servo control parameters (like micro_bimo.ino)
-        self.servo_speed = 3400  # Goal velocity (like WritePosEx speed param)
+        self.servo_speed = 1000  # Goal velocity (like WritePosEx speed param)
         self.servo_accel = 254  # Acceleration (like WritePosEx acceleration param)
 
         # SỬA LẠI THEO CÁI ĐÃ CALIB TRONG APP FD
@@ -476,7 +476,7 @@ class MCUServer:
                 }
 
             elif cmd_type == "home":
-                home_pos = [415, 2642, 2702, 2505, 2185, 2048]
+                home_pos = [2048] * 6  # tất cả servo home ở 2048
                 success = self.apply_new_positions(home_pos)
                 return {
                     "status": "success" if success else "error",

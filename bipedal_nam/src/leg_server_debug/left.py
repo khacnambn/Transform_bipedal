@@ -89,17 +89,17 @@ class MCUServerLeft:
         }
 
         # Servo control parameters
-        self.servo_speed = 3400  # Goal velocity
+        self.servo_speed = 1000  # Goal velocity
         self.servo_accel = 254  # Acceleration
 
         # ✅ Servo limits for LEFT leg
         self.servo_limits = {
-            4: {"min": 1311, "max": 3665},
-            5: {"min": 1545, "max": 2365},
-            6: {"min": 1040, "max": 1050},
-            7: {"min": 1313, "max": 3231},
-            8: {"min": 1111, "max": 2363},
-            9: {"min": 1380, "max": 1398},
+            4: {"min": 1782, "max": 4050},
+            5: {"min": 1994, "max": 2470},
+            6: {"min": 1062, "max": 3097},
+            7: {"min": 949, "max": 3156},
+            8: {"min": 1438, "max": 2490},
+            9: {"min": 1802, "max": 2646},
         }
 
         # Current positions (6 servos: motor 4-9)
@@ -438,7 +438,7 @@ class MCUServerLeft:
                 }
 
             elif cmd_type == "home":
-                home_pos = [3366, 1958, 1042, 2317, 1584, 1390]
+                home_pos = [2048] * 6  # tất cả servo home ở 2048
                 success = self.apply_new_positions(home_pos)
                 return {
                     "status": "success" if success else "error",

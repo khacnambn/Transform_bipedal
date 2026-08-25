@@ -47,8 +47,8 @@ def setup_logging():
 
     jsonl_file = open(jsonl_path, "w", encoding="utf-8")
 
-    print(f"📝 Log (text):  {log_path}")
-    print(f"📝 Log (jsonl): {jsonl_path}")
+    print(f" Log (text):  {log_path}")
+    print(f" Log (jsonl): {jsonl_path}")
 
     return jsonl_file
 
@@ -63,7 +63,7 @@ class SimpleIMUFusion:
         right_host="127.0.0.1",
         right_port=5555,
     ):
-        # ✅ Tạo controller riêng cho mỗi leg (y hệt walking_gait_dual.py)
+        #  Tạo controller riêng cho mỗi leg (y hệt walking_gait_dual.py)
         self.left = IMUController(left_host, left_port, "LEFT")
         self.right = IMUController(right_host, right_port, "RIGHT")
 
