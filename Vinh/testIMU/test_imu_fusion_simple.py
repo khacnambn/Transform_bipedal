@@ -3,6 +3,54 @@ import math
 import numpy as np
 import time
 import json
+import sys
+from pathlib import Path
+
+# ==============================
+# Logging - ghi output ra folder logs/ ở thư mục tổng
+# ==============================
+LOG_DIR = Path(__file__).resolve().parent.parent.parent / "logs"
+
+
+class Tee:
+    """Ghi song song: vừa in ra terminal, vừa ghi vào file log"""
+
+    def __init__(self, stream, file_handle):
+        self.stream = stream
+        self.file = file_handle
+
+    def write(self, data):
+        self.stream.write(data)
+        self.file.write(data)
+        self.file.flush()  # flush ngay để đọc log được khi script vẫn đang chạy
+
+    def flush(self):
+        self.stream.flush()
+        self.file.flush()
+
+
+def setup_logging():
+    """
+    Mở 2 file log trong logs/:
+      - .log   : toàn bộ output như trên terminal (người đọc)
+      - .jsonl : mỗi dòng 1 iteration, chỉ số liệu (máy đọc / phân tích)
+    Trả về file handle của .jsonl
+    """
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%Y%m%d_%H%M%S")
+
+    log_path = LOG_DIR / f"imu_fusion_{stamp}.log"
+    jsonl_path = LOG_DIR / f"imu_fusion_{stamp}.jsonl"
+
+    log_file = open(log_path, "w", encoding="utf-8")
+    sys.stdout = Tee(sys.stdout, log_file)
+
+    jsonl_file = open(jsonl_path, "w", encoding="utf-8")
+
+    print(f"📝 Log (text):  {log_path}")
+    print(f"📝 Log (jsonl): {jsonl_path}")
+
+    return jsonl_file
 
 
 class SimpleIMUFusion:
@@ -143,13 +191,15 @@ class SimpleIMUFusion:
         q_rot = [cos_half, axis[0] * sin_half, axis[1] * sin_half, axis[2] * sin_half]
         q_rot = self.quat_normalize(q_rot)
         q_imu = self.quat_normalize(q_imu)
-        
+
         q_temp = self.quat_mult(q_rot, q_imu)
         q_baselink = self.quat_mult(q_temp, self.quat_conj(q_rot))
 
         print(f"\n  🔍 {imu_name.upper()} TRANSFORM DEBUG:")
-        print(f"     [Result] q_baselink:         w={q_baselink[0]:+.4f} x={q_baselink[1]:+.4f} y={q_baselink[2]:+.4f} z={q_baselink[3]:+.4f}")
-        
+        print(
+            f"     [Result] q_baselink:         w={q_baselink[0]:+.4f} x={q_baselink[1]:+.4f} y={q_baselink[2]:+.4f} z={q_baselink[3]:+.4f}"
+        )
+
         return self.quat_normalize(q_baselink)
 
     def transform_pos_to_baselink(self, pos, imu_name):
@@ -184,6 +234,26 @@ class SimpleIMUFusion:
 
         return roll * 180 / math.pi, pitch * 180 / math.pi, yaw * 180 / math.pi
 
+    # Tính toán bỏ đi góc yaw, đặt góc YAW = 0
+    def strip_yaw(self, q):
+        """
+        Bỏ thành phần yaw khỏi quaternion, giữ nguyên roll & pitch.
+        Tự tính bằng RADIAN bên trong -> không dính bẫy đơn vị của
+        quat_to_euler() (hàm đó trả về ĐỘ).
+        """
+        w, x, y, z = self.quat_normalize(q)
+
+        # Tách roll & pitch (radian)
+        roll = math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y))
+        sinp = 2 * (w * y - z * x)
+        pitch = math.copysign(math.pi / 2, sinp) if abs(sinp) >= 1 else math.asin(sinp)
+
+        # Dựng lại quaternion với yaw = 0
+        cr, sr = math.cos(roll / 2), math.sin(roll / 2)
+        cp, sp = math.cos(pitch / 2), math.sin(pitch / 2)
+
+        return self.quat_normalize([cr * cp, sr * cp, cr * sp, -sr * sp])
+
     def fuse_quat(self, q1, q2, weight1=0.5):
         """Fusion 2 quaternion"""
         weight2 = 1 - weight1
@@ -201,7 +271,7 @@ class SimpleIMUFusion:
 
         return self.quat_normalize(fused)
 
-    def run(self):
+    def run(self, jsonl_file=None):
         """Chạy liên tục"""
         print("\n" + "=" * 80)
         print("🔄 IMU FUSION - READING DATA")
@@ -234,9 +304,28 @@ class SimpleIMUFusion:
                 print(f"  ✓ LEFT raw:  {[f'{x:.4f}' for x in left_raw]}")
                 print(f"  ✓ RIGHT raw: {[f'{x:.4f}' for x in right_raw]}")
 
+                # ✅ Euler của quat GỐC (chưa transform) - để so THẲNG với gyroacce.py
+                left_raw_euler = self.quat_to_euler(left_raw)
+                right_raw_euler = self.quat_to_euler(right_raw)
+
+                print(
+                    "\n  🧭 EULER GỐC (chưa transform - so trực tiếp với gyroacce.py):"
+                )
+                print(
+                    f"     LEFT:  Roll={left_raw_euler[0]:+7.2f}°  Pitch={left_raw_euler[1]:+7.2f}°  Yaw={left_raw_euler[2]:+7.2f}°"
+                )
+                print(
+                    f"     RIGHT: Roll={right_raw_euler[0]:+7.2f}°  Pitch={right_raw_euler[1]:+7.2f}°  Yaw={right_raw_euler[2]:+7.2f}°"
+                )
+
                 # ✅ DEBUG version - in chi tiết
                 left_q = self.transform_quat_to_baselink_debug(left_raw, "left")
                 right_q = self.transform_quat_to_baselink_debug(right_raw, "right")
+
+                # ✅ Bỏ yaw TRƯỚC khi fusion (yaw Madgwick không mag = rác, gây lệch pitch)
+                #    Thứ tự bắt buộc: transform trước -> strip_yaw sau
+                left_q = self.strip_yaw(left_q)
+                right_q = self.strip_yaw(right_q)
 
                 # ✅ THÊM: Check norm sau transform
                 norm_left_after = math.sqrt(sum(x**2 for x in left_q))
@@ -300,6 +389,25 @@ class SimpleIMUFusion:
                     f"  FUSION: w={fused_q[0]:+.4f}  x={fused_q[1]:+.4f}  y={fused_q[2]:+.4f}  z={fused_q[3]:+.4f}"
                 )
 
+                # ✅ Ghi 1 dòng số liệu vào .jsonl để phân tích sau
+                if jsonl_file:
+                    record = {
+                        "t": round(time.time(), 3),
+                        "iter": iteration,
+                        "left_raw_quat": [float(x) for x in left_raw],
+                        "right_raw_quat": [float(x) for x in right_raw],
+                        "left_raw_euler": list(left_raw_euler),
+                        "right_raw_euler": list(right_raw_euler),
+                        "left_quat": list(left_q),
+                        "right_quat": list(right_q),
+                        "fused_quat": list(fused_q),
+                        "left_euler": list(left_euler),
+                        "right_euler": list(right_euler),
+                        "fused_euler": list(fused_euler),
+                    }
+                    jsonl_file.write(json.dumps(record) + "\n")
+                    jsonl_file.flush()
+
                 time.sleep(1)
 
         except KeyboardInterrupt:
@@ -352,8 +460,8 @@ class IMUController:
             # 2️⃣ CHỜ response
             response = self.socket.recv_json()
 
-            # 3️⃣ LẤY imu data
-            imu_data = response.get("imu", [1, 0, 0, 0])
+            # 3️⃣ LẤY imu data (server trả về key là 'quat' thay vì 'imu')
+            imu_data = response.get("quat", [1, 0, 0, 0])
 
             # 4️⃣ KIỂM TRA valid
             if len(imu_data) == 4:
@@ -382,6 +490,7 @@ class IMUController:
 
 
 def main():
+    jsonl_file = setup_logging()
     try:
         fuser = SimpleIMUFusion(
             left_host="mobile2.local",
@@ -389,7 +498,7 @@ def main():
             right_host="mobile1.local",
             right_port=5555,
         )
-        fuser.run()
+        fuser.run(jsonl_file)
     except Exception as e:
         print(f"❌ Failed to initialize: {e}")
         print("\n📋 Make sure servers are running:")
@@ -399,6 +508,8 @@ def main():
         print(
             "  Terminal 2: python -m src.leg_server.leg_server_right --port 5555 --debug"
         )
+    finally:
+        jsonl_file.close()
 
 
 if __name__ == "__main__":
