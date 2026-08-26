@@ -81,14 +81,18 @@ def show(leg, ms, resp):
     if len(quat) == 4:
         r, p, y = quat_to_euler_deg(quat)
         print(f"\n  [IMU]")
-        print(f"     quat  w={quat[0]:+.4f} x={quat[1]:+.4f} y={quat[2]:+.4f} z={quat[3]:+.4f}")
+        print(
+            f"     quat  w={quat[0]:+.4f} x={quat[1]:+.4f} y={quat[2]:+.4f} z={quat[3]:+.4f}"
+        )
         print(f"     euler roll={r:+7.2f}°  pitch={p:+7.2f}°  yaw={y:+7.2f}°")
         if quat == [0.0, 0.0, 0.0, 0.0]:
             print("     ⚠️ quat toàn 0 - IMU chưa warm-up hoặc lỗi")
 
     gyro = resp.get("gyro", [])
     if len(gyro) == 3:
-        print(f"     gyro  gx={gyro[0]:+.4f} gy={gyro[1]:+.4f} gz={gyro[2]:+.4f}  rad/s")
+        print(
+            f"     gyro  gx={gyro[0]:+.4f} gy={gyro[1]:+.4f} gz={gyro[2]:+.4f}  rad/s"
+        )
 
     return True
 
