@@ -7,8 +7,6 @@ Giao diện thanh trượt điều khiển 12 động cơ (2 chân) qua ZeroMQ.
 - Vị trí thật đọc định kỳ qua REQ/REP (port) để đối chiếu.
 - servo_limits đọc thẳng từ leg_server_debug/{left,right}.py bằng AST,
   nên sửa limit trong file server rồi lưu là giao diện tự cập nhật.
-
-Chạy:  python examples_client/motor_slider_gui.py
 """
 
 import ast
