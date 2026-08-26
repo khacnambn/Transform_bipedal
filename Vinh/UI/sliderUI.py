@@ -56,6 +56,10 @@ POLL_S = 0.01  # chu kỳ đọc feedback -> ~67Hz thực tế
 VIEW_HZ = 30  # tần suất vẽ lại panel 3D
 TICKS_PER_REV = 4096
 
+# Tốc độ dùng riêng cho nút Home - luôn chậm, không phụ thuộc ô nhập
+HOME_SPEED = 700
+HOME_ACCEL = 70
+
 ctx = zmq.Context.instance()
 
 
@@ -377,6 +381,9 @@ class LegPanel(ttk.LabelFrame):
         self.enabled = tk.BooleanVar(value=False)
         self.blocked = False  # True khi limit trong file lệch với limit trên Pi
         self.last_quat = None  # quaternion thô mới nhất từ IMU chân này
+        # Vị trí ĐÃ RA LỆNH lần cuối (khác với vị trí đo được - servo có vùng chết).
+        # Gửi lại số ĐO cho khớp không đụng tới sẽ đổi đích của nó -> khớp tự dịch.
+        self.goal = None
         self.recv_count = 0  # đếm gói feedback nhận được, dùng tính Hz thật
         self.last_sent = None
         self.last_send_t = 0.0
@@ -436,7 +443,7 @@ class LegPanel(ttk.LabelFrame):
                 row=row, column=3
             )
 
-            lbl = ttk.Label(self, text="thật: —", width=18, foreground="#0a6")
+            lbl = ttk.Label(self, text="thật: —", width=26, foreground="#0a6")
             lbl.grid(row=row, column=4, sticky="w")
             self.actual_lbl[mid] = lbl
 
@@ -474,8 +481,34 @@ class LegPanel(ttk.LabelFrame):
     def _on_enable(self):
         # Bật là đồng bộ ngay: tránh cú nhảy khi thanh trượt đang lệch vị trí thật.
         # sync_from_robot() tự tắt lại nếu phát hiện limit lệch với Pi.
-        if self.enabled.get():
-            self.sync_from_robot()
+        if not self.enabled.get():
+            return
+        if not self.sync_from_robot():
+            return
+
+        if self.goal is not None:
+            # Đã biết đích -> quay lại ĐÚNG lệnh cũ thay vì lấy số đo. Lấy số đo sẽ
+            # nhồi sai số vùng chết vào đích -> kéo 1 khớp là 5 khớp kia cùng dịch.
+            self._apply_goal()
+            return
+
+        # Chưa từng ra lệnh trong phiên này -> không biết servo đang giữ đích nào.
+        # Đành lấy số đo, và lần kéo đầu tiên sẽ làm các khớp dịch đúng bằng sai
+        # số vùng chết của chúng. Bấm Home trước là hết, vì Home đặt đích đã biết.
+        self.goal = self._current()
+        self.status.config(
+            text="⚠ Chưa biết đích servo (chưa Home lần nào). Lần kéo đầu có thể "
+            "làm vài khớp dịch nhẹ — bấm Home trước để tránh.",
+            foreground="#a60",
+        )
+
+    def _apply_goal(self):
+        if self.goal is None:
+            return
+        for mid, val in zip(sorted(JOINTS), self.goal):
+            lo, hi = self.limits[mid]
+            self.vars[mid].set(max(lo, min(hi, val)))
+        self.last_sent = self._current()
 
     def _req(self, msg):
         try:
@@ -503,16 +536,40 @@ class LegPanel(ttk.LabelFrame):
             return False
 
         pos = resp.get("servo_pos", [])
+
+        # Nếu server có trả về "target" (đích nó đang giữ) thì dùng luôn làm goal.
+        # Server hiện chưa trả; để sẵn đây, thêm 1 dòng bên Pi là tự hoạt động:
+        #     "target": self.target_positions,
+        tgt = resp.get("target", [])
+        if self.goal is None and len(tgt) == 6 and all(t > 0 for t in tgt):
+            self.goal = list(tgt)
+
         out_of_range = []
+        no_reading = []
 
         for i, mid in enumerate(sorted(JOINTS)):
-            if i < len(pos) and pos[i] > 0:
-                lo, hi = self.limits[mid]
-                if not lo <= pos[i] <= hi:
-                    out_of_range.append((mid, pos[i], lo, hi))
-                self.vars[mid].set(max(lo, min(hi, pos[i])))
+            if i >= len(pos) or pos[i] <= 0:
+                # Không có số đọc hợp lệ -> slider vẫn nằm ở giá trị khởi tạo
+                # (limit MIN). Gửi đi là khớp đó lao thẳng xuống biên dưới.
+                no_reading.append(mid)
+                continue
+            lo, hi = self.limits[mid]
+            if not lo <= pos[i] <= hi:
+                out_of_range.append((mid, pos[i], lo, hi))
+            self.vars[mid].set(max(lo, min(hi, pos[i])))
 
         self.last_sent = self._current()
+
+        if no_reading:
+            self.blocked = True
+            self.enabled.set(False)
+            names = ", ".join(f"{m} {JOINTS[m]}" for m in no_reading)
+            self.status.config(
+                text=f"⛔ KHÔNG ĐỌC ĐƯỢC VỊ TRÍ — đã khoá: {names}. "
+                f"Gửi lệnh sẽ kéo khớp này về biên dưới.",
+                foreground="#c00",
+            )
+            return False
 
         if out_of_range:
             self.blocked = True
@@ -558,22 +615,65 @@ class LegPanel(ttk.LabelFrame):
                 )
                 if not ok:
                     return
+        # Về home LUÔN chạy chậm cho an toàn, bất kể ô speed/accel đang là bao nhiêu.
+        self._req({"type": "config", "speed": HOME_SPEED, "acceleration": HOME_ACCEL})
         self._req({"type": "home"})
-        # Về home mất 1-2s tuỳ speed. Đồng bộ lặp lại tới khi servo đứng hẳn,
-        # thay vì đoán một mốc thời gian cố định.
-        self._settle_sync(tries=10)
+        self.status.config(
+            text=f"● đang về home (speed {HOME_SPEED}, accel {HOME_ACCEL})…",
+            foreground="#a60",
+        )
+        # Home vừa đặt đích = home_pos cho cả 6 khớp -> ghi nhớ làm goal.
+        # Nhờ vậy lệnh move sau đó gửi lại đúng 2048 cho khớp không đụng tới,
+        # trùng với đích servo đang giữ -> chúng đứng im.
+        self.goal = list(home) if home else None
+        # speed 200 chậm hơn nhiều -> phải chờ lâu hơn (40 x 300ms = 12s)
+        self._settle_sync(tries=40, on_done=self._after_home)
 
-    def _settle_sync(self, tries, prev=None):
-        """Đọc lại vị trí mỗi 300ms; hai lần liên tiếp giống nhau -> đã dừng, chốt slider."""
+    def _after_home(self):
+        self._apply_goal()
+        self._restore_config()
+
+    def _restore_config(self):
+        """Sau khi về home xong, trả tốc độ lại đúng con số trong ô nhập."""
+        try:
+            speed, accel = int(self.speed_var.get()), int(self.accel_var.get())
+        except ValueError:
+            return
+        self._req({"type": "config", "speed": speed, "acceleration": accel})
+        self.status.config(
+            text=f"● đã về home — speed trả lại {speed}/{accel}", foreground="#0a6"
+        )
+
+    def _settle_sync(self, tries, prev=None, on_done=None, moved=False, waited=0):
+        """
+        Đọc lại vị trí mỗi 300ms, chốt slider khi servo đã đứng hẳn.
+
+        Phải THẤY servo chuyển động rồi mới chấp nhận "đứng yên". Nếu chỉ so hai
+        lần đọc liên tiếp, lệnh home vừa gửi mà servo chưa kịp nhúc nhích sẽ cho
+        hai số giống nhau -> tưởng xong ngay, chốt slider vào vị trí CŨ và trả
+        speed về sớm. Có 1.5s ân hạn cho trường hợp khớp vốn đã ở đúng home.
+        """
         if tries <= 0:
             self.sync_from_robot()
+            if on_done:
+                on_done()
             return
+
         resp = self._req({"type": "feedback"})
         pos = resp.get("servo_pos", []) if resp else []
-        if pos and pos == prev:
+
+        if pos and prev is not None and pos != prev:
+            moved = True
+
+        if pos and pos == prev and (moved or waited >= 5):
             self.sync_from_robot()
+            if on_done:
+                on_done()
             return
-        self.after(300, lambda: self._settle_sync(tries - 1, pos))
+
+        self.after(
+            300, lambda: self._settle_sync(tries - 1, pos, on_done, moved, waited + 1)
+        )
 
     def stop(self):
         """
@@ -589,15 +689,23 @@ class LegPanel(ttk.LabelFrame):
         if not resp:
             return
         pos = resp.get("servo_pos", [])
-        if len(pos) != 6 or any(p <= 0 for p in pos):
+        if len(pos) != 6:
             self.status.config(
-                text="● DỪNG: đọc vị trí lỗi, không ghim", foreground="#c00"
+                text="● DỪNG: không đọc được vị trí, không ghim", foreground="#c00"
             )
             return
-        hold = [
-            max(self.limits[m][0], min(self.limits[m][1], p))
-            for m, p in zip(sorted(JOINTS), pos)
-        ]
+
+        # Khớp nào đọc lỗi thì giữ nguyên giá trị slider đang có, KHÔNG bỏ luôn cả
+        # lệnh - nút DỪNG phải làm được việc kể cả khi feedback hỏng một khớp.
+        bad = []
+        hold = []
+        for i, mid in enumerate(sorted(JOINTS)):
+            lo, hi = self.limits[mid]
+            if pos[i] > 0:
+                hold.append(max(lo, min(hi, pos[i])))
+            else:
+                bad.append(mid)
+                hold.append(self.vars[mid].get())
         try:
             self.push.send_json({"type": "move", "positions": hold}, zmq.NOBLOCK)
         except zmq.Again:
@@ -605,9 +713,17 @@ class LegPanel(ttk.LabelFrame):
         for mid, val in zip(sorted(JOINTS), hold):
             self.vars[mid].set(val)
         self.last_sent = hold
-        self.status.config(
-            text="● ĐÃ DỪNG — ghim tại vị trí hiện tại", foreground="#a60"
-        )
+        self.goal = hold  # DỪNG cũng là một lệnh -> cập nhật đích
+        if bad:
+            names = ", ".join(f"{m} {JOINTS[m]}" for m in bad)
+            self.status.config(
+                text=f"● ĐÃ DỪNG — nhưng {names} không có feedback, giữ theo slider",
+                foreground="#c00",
+            )
+        else:
+            self.status.config(
+                text="● ĐÃ DỪNG — ghim tại vị trí hiện tại", foreground="#a60"
+            )
 
     def apply_config(self):
         try:
@@ -637,6 +753,7 @@ class LegPanel(ttk.LabelFrame):
         try:
             self.push.send_json({"type": "move", "positions": cur}, zmq.NOBLOCK)
             self.last_sent = cur
+            self.goal = cur  # ghi nhớ ĐÍCH đã ra lệnh
             self.last_send_t = now
         except zmq.Again:
             pass  # hàng đợi đầy -> bỏ frame này, frame sau sẽ mang giá trị mới nhất
@@ -694,14 +811,23 @@ class App(tk.Tk):
         self.title("Điều khiển động cơ — 2 chân")
         self.status_q = queue.Queue()
 
-        head = ttk.Label(
+        top = ttk.Frame(self, padding=(8, 6))
+        top.grid(row=0, column=0, columnspan=2, sticky="we")
+
+        ttk.Button(top, text="⌂  HOME CẢ 2 CHÂN", command=self.home_all).pack(
+            side="left", padx=(0, 12)
+        )
+
+        self.all_status = ttk.Label(top, text="", foreground="#a60")
+        self.all_status.pack(side="left")
+
+        ttk.Label(
             self,
             text="Thanh trượt tính bằng TICK, giới hạn đọc từ leg_server_debug/*.py. "
             "Phải bấm 'BẬT gửi lệnh' thì động cơ mới chạy.",
             foreground="#555",
-            padding=(8, 6),
-        )
-        head.grid(row=0, column=0, columnspan=2, sticky="w")
+            padding=(8, 0),
+        ).grid(row=1, column=0, columnspan=2, sticky="w")
 
         self.panels = []
         for col, cfg in enumerate(LEGS):
@@ -709,10 +835,10 @@ class App(tk.Tk):
                 panel = LegPanel(self, cfg, self.status_q)
             except Exception as exc:
                 ttk.Label(self, text=f"{cfg['side']}: lỗi đọc limit — {exc}").grid(
-                    row=1, column=col
+                    row=2, column=col
                 )
                 continue
-            panel.grid(row=1, column=col, padx=8, pady=8, sticky="n")
+            panel.grid(row=2, column=col, padx=8, pady=8, sticky="n")
             self.panels.append(panel)
 
         self._rate_t0 = time.time()
@@ -721,12 +847,38 @@ class App(tk.Tk):
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         self.after(1000 // SEND_HZ, self.tick)
 
+    def home_all(self):
+        """
+        Đưa CẢ 2 CHÂN về home cùng lúc.
+
+        Hai chân là 2 server độc lập nên lệnh đi song song, không phải chờ chân
+        này xong mới tới chân kia. Mỗi panel tự chạy vòng _settle_sync riêng.
+        """
+        if not self.panels:
+            return
+        for panel in self.panels:
+            panel.go_home()
+        sides = " + ".join(p.side for p in self.panels)
+        self.all_status.config(text=f"đang đưa {sides} về home…", foreground="#a60")
+        self.after(500, self._watch_home_all)
+
+    def _watch_home_all(self):
+        """Chờ tới khi cả 2 chân báo xong rồi mới xoá dòng trạng thái chung."""
+        busy = [p.side for p in self.panels if "đang về home" in p.status.cget("text")]
+        if busy:
+            self.all_status.config(
+                text=f"đang đưa {' + '.join(busy)} về home…", foreground="#a60"
+            )
+            self.after(400, self._watch_home_all)
+        else:
+            self.all_status.config(text="✓ cả 2 chân đã về home", foreground="#0a6")
+
     def _build_orientation_row(self):
         """Hàng dưới: 3 cục phẳng 3D thể hiện orientation đọc từ IMU."""
         box = ttk.LabelFrame(
             self, text="Orientation từ IMU (khung baselink, đã bỏ yaw)", padding=8
         )
-        box.grid(row=2, column=0, columnspan=2, padx=8, pady=(0, 8), sticky="we")
+        box.grid(row=3, column=0, columnspan=2, padx=8, pady=(0, 8), sticky="we")
 
         self.views = {}
         self.view_lbl = {}
